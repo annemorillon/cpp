@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = phonebook
+NAME = account
 
 CPP = c++
 
@@ -12,11 +12,10 @@ INCLUDES = -Iincludes
 FLAGS = -Wall -Werror -Wextra -MMD -MP -std=c++98
 
 # Sources
-SRCS_DIR			= src/
+SRCS_DIR			= srcs/
 
-SRCS				= main.cpp \
-					contact.cpp \
-					phonebook.cpp
+SRCS				= Account.cpp \
+					tests.cpp 
 
 SOURCES				= $(addprefix $(SRCS_DIR), $(SRCS))
 
