@@ -6,7 +6,7 @@
 /*   By: anmorill <anmorill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:09:18 by anmorill          #+#    #+#             */
-/*   Updated: 2026/02/05 14:07:05 by anmorill         ###   ########.fr       */
+/*   Updated: 2026/02/12 13:17:52 by anmorill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static void	setPhoneNumber(Contact& contact)
 	while (1)
 	{
 		std::cout << "Phone Number : ";
-		getline(std::cin, phoneNumber);
+		while(!getline(std::cin, phoneNumber))
+			;
 		if (isPhoneNumber(phoneNumber))
 		{
 			contact.setPhoneNumber(phoneNumber);
@@ -83,11 +84,11 @@ void	PhoneBook::setContact(int i)
 	std::string	nickname;
 	std::string	darkestSecret;
 
-
 	while (1)
 	{
 		std::cout << "First Name : ";
-		getline(std::cin, firstName);
+		while(!getline(std::cin, firstName))
+			;
 		if (!firstName.empty() && !isAllSpace(firstName))
 			break ;
 		std::cerr << ERROR << "Please enter a first name" << RESET << std::endl;
@@ -96,7 +97,8 @@ void	PhoneBook::setContact(int i)
 	while (1)
 	{
 		std::cout << "Last Name : ";
-		getline(std::cin, lastName);
+		while(!getline(std::cin, lastName))
+			;
 		if (!lastName.empty() && !isAllSpace(lastName))
 			break ;
 		std::cerr << ERROR << "Please enter a last name" << RESET << std::endl;
@@ -105,7 +107,8 @@ void	PhoneBook::setContact(int i)
 	while (1)
 	{
 		std::cout << "Nickname : ";
-		getline(std::cin, nickname);
+		while(!getline(std::cin, nickname))
+			;
 		if (!lastName.empty() && !isAllSpace(nickname))
 			break ;
 		std::cerr << ERROR << "Please enter a nickname" << RESET << std::endl;
@@ -115,7 +118,8 @@ void	PhoneBook::setContact(int i)
 	while (1)
 	{
 		std::cout << "Darkest Secret : ";
-		getline(std::cin, darkestSecret);
+		while(!getline(std::cin, darkestSecret))
+			;
 		if (!darkestSecret.empty() && !isAllSpace(darkestSecret))
 			break ;
 		std::cerr << ERROR << "Please enter a darkest secret" << RESET << std::endl;
