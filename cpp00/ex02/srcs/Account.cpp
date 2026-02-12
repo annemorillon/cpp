@@ -6,13 +6,18 @@
 /*   By: anmorill <anmorill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:29:36 by anmorill          #+#    #+#             */
-/*   Updated: 2026/02/06 11:50:31 by anmorill         ###   ########.fr       */
+/*   Updated: 2026/02/12 11:16:32 by anmorill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Account.hpp"
 # include <iostream>
 # include <ctime>
+
+int	Account::_nbAccounts = 0;
+int	Account::_totalAmount = 0;
+int	Account::_totalNbDeposits = 0;
+int	Account::_totalNbWithdrawals = 0;
 
 int	Account::getNbAccounts(void)
 {
@@ -44,19 +49,21 @@ void	Account::displayAccountsInfos(void)
 	std::cout << ";deposits:";
 	std::cout << _totalNbDeposits;
 	std::cout << ";withdrawals:";
-	std::cout << _totalNbWithdrawals;
+	std::cout << _totalNbWithdrawals << std::endl;
 }
 
 Account::Account(int initial_deposit)
 {
 	_displayTimestamp();
 	std::cout << "index:";
+	this->_accountIndex = _nbAccounts;
 	std::cout << this->_accountIndex;
+	this->_nbAccounts++;
 	std::cout << ";amount:";
-	std::cout << initial_deposit;
-	std::cout << ";created";
-	// ajouter le initial deposit
-	// update de l'index ?
+	this->_amount = initial_deposit;
+	std::cout << this->_amount;
+	this->_totalAmount += this->_amount;
+	std::cout << ";created" << std::endl;
 }
 
 Account::~Account( void )
@@ -66,40 +73,57 @@ Account::~Account( void )
 	std::cout << this->_accountIndex;
 	std::cout << ";amount:";
 	std::cout << this->_amount;
-	std::cout << ";closed";
+	std::cout << ";closed" << std::endl;
 }
 
 void	Account::makeDeposit( int deposit )
 {
-	this->_nbDeposits = deposit;
-	this->_amount = ;
+	this->_nbDeposits++;
 	this->_totalNbDeposits++;
+	_displayTimestamp();
+	std::cout << "index:";
+	std::cout << this->_accountIndex;
+	std::cout << ";p_amount:";
+	std::cout << this->_amount;
+	std::cout << ";deposit:";
+	std::cout << deposit;
+	std::cout << ";amount:";
+	this->_amount += deposit;
+	this->_totalAmount += deposit;
+	std::cout << this->_amount;
+	std::cout << ";nb_deposits:";
+	std::cout << this->_nbDeposits << std::endl;
 }
 
 bool	Account::makeWithdrawal( int withdrawal )
 {
-	this->_nbWithdrawals = withdrawal;
+	_displayTimestamp();
+	std::cout << "index:";
+	std::cout << this->_accountIndex;
+	std::cout << ";p_amount:";
+	std::cout << this->_amount;
+	this->_amount -= withdrawal;
 	if (checkAmount())
 	{
-		this->_nbWithdrawals = 0;
+		this->_amount += withdrawal;
+		std::cout << ";withdrawal:refused" << std::endl;
 		return (false);
 	}
 	this->_totalNbWithdrawals++;
-	this->_totalAmount -= this->_nbWithdrawals;
-	// std::cout << "index:";
-	// std::cout << this->_accountIndex;
-	// std::cout << ";p_amount:";
-	// std::cout << this->_totalAmount;
-	// std::cout << ";deposits:";
-	// std::cout << this->_nbDeposits;
-	// std::cout << ";withdrawals:";
-	// std::cout << this->_nbWithdrawals;
+	this->_nbWithdrawals++;
+	std::cout << ";withdrawal:";
+	std::cout << withdrawal;
+	std::cout << ";amount:";
+	this->_totalAmount -= withdrawal;
+	std::cout << this->_amount;
+	std::cout << ";nb_withdrawals:";
+	std::cout << this->_nbDeposits << std::endl;
 	return (true);
 }
 
 int		Account::checkAmount( void ) const
 {
-	if (this->_nbWithdrawals > this->_totalAmount)
+	if (this->_amount < 0)
 		return (1);
 	return (0);
 }
@@ -114,31 +138,16 @@ void	Account::displayStatus( void ) const
 	std::cout << ";deposits:";
 	std::cout << this->_nbDeposits;
 	std::cout << ";withdrawals:";
-	std::cout << this->_nbWithdrawals;
+	std::cout << this->_nbWithdrawals << std::endl;
 }
 
 void	Account::_displayTimestamp( void )
 {
-	struct tm datetime;
-	time_t timestamp;
+	// std::cout << "[19920104_091532] ";
+	time_t timestamp = time(NULL);
+	struct tm datetime = *localtime(&timestamp);
 
-	datetime.tm_year = 1992; // Number of years since 1900
-	datetime.tm_mon = 01; // Number of months since January
-	datetime.tm_mday = 04;
-	datetime.tm_hour = 9;
-	datetime.tm_min = 15;
-	datetime.tm_sec = 32;
-	// Daylight Savings must be specified
-	// -1 uses the computer's timezone setting
-	datetime.tm_isdst = -1;
-
-	timestamp = mktime(&datetime);
-
-	std::cout << "[" << ctime(&timestamp) << "]" << std::endl;
-
-}
-
-Account::Account( void )
-{
-	
+	char output[20];
+	strftime(output, 20, "[%Y%m%d_%H%M%S] ", &datetime);
+	std::cout << output;
 }
