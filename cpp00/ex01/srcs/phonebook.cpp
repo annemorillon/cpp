@@ -6,7 +6,7 @@
 /*   By: anmorill <anmorill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:09:18 by anmorill          #+#    #+#             */
-/*   Updated: 2026/02/12 13:17:52 by anmorill         ###   ########.fr       */
+/*   Updated: 2026/02/17 09:09:21 by anmorill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 PhoneBook::PhoneBook(void)
 {
-	this->nbContact = 0;
+	_nbContact = 0;
 	std::cout << GREY << "Constructor phonebook" << "\e[0;37m" << std::endl;
 }
 
@@ -25,12 +25,12 @@ PhoneBook::~PhoneBook()
 
 Contact	PhoneBook::getContacts(int i)
 {
-	return (this->contacts[i]);
+	return (_contacts[i]);
 }
 
 int	PhoneBook::getNbContact(void)
 {
-	return (this->nbContact);
+	return (_nbContact);
 }
 
 static bool	isPhoneNumber(std::string phone_number)
@@ -50,8 +50,8 @@ static void	setPhoneNumber(Contact& contact)
 	while (1)
 	{
 		std::cout << "Phone Number : ";
-		while(!getline(std::cin, phoneNumber))
-			;
+		if (!getline(std::cin, phoneNumber))
+			break ;
 		if (isPhoneNumber(phoneNumber))
 		{
 			contact.setPhoneNumber(phoneNumber);
@@ -63,7 +63,7 @@ static void	setPhoneNumber(Contact& contact)
 
 void	PhoneBook::setNbContact(int i)
 {
-	this->nbContact = i;
+	_nbContact = i;
 }
 
 static bool	isAllSpace(std::string txt)
@@ -77,7 +77,7 @@ static bool	isAllSpace(std::string txt)
 	return (true);	
 }
 
-void	PhoneBook::setContact(int i)
+bool	PhoneBook::setContact(int i)
 {
 	std::string	firstName;
 	std::string	lastName;
@@ -87,64 +87,69 @@ void	PhoneBook::setContact(int i)
 	while (1)
 	{
 		std::cout << "First Name : ";
-		while(!getline(std::cin, firstName))
-			;
+		if (!getline(std::cin, firstName))
+			return (false);
 		if (!firstName.empty() && !isAllSpace(firstName))
 			break ;
 		std::cerr << ERROR << "Please enter a first name" << RESET << std::endl;
 	}
-	this->contacts[i].setName(firstName);
+	_contacts[i].setName(firstName);
 	while (1)
 	{
 		std::cout << "Last Name : ";
-		while(!getline(std::cin, lastName))
-			;
+		if (!getline(std::cin, lastName))
+			return (false);
 		if (!lastName.empty() && !isAllSpace(lastName))
 			break ;
 		std::cerr << ERROR << "Please enter a last name" << RESET << std::endl;
 	}
-	this->contacts[i].setLastName(lastName);
+	_contacts[i].setLastName(lastName);
 	while (1)
 	{
 		std::cout << "Nickname : ";
-		while(!getline(std::cin, nickname))
-			;
+		if (!getline(std::cin, nickname))
+			return (false);
 		if (!lastName.empty() && !isAllSpace(nickname))
 			break ;
 		std::cerr << ERROR << "Please enter a nickname" << RESET << std::endl;
 	}
-	this->contacts[i].setNickname(nickname);
-	setPhoneNumber(this->contacts[i]);
+	_contacts[i].setNickname(nickname);
+	setPhoneNumber(_contacts[i]);
+	if (_contacts[i].getPhoneNumber().empty())
+		return (false);
 	while (1)
 	{
 		std::cout << "Darkest Secret : ";
-		while(!getline(std::cin, darkestSecret))
-			;
+		if (!getline(std::cin, darkestSecret))
+			return (false);
 		if (!darkestSecret.empty() && !isAllSpace(darkestSecret))
 			break ;
 		std::cerr << ERROR << "Please enter a darkest secret" << RESET << std::endl;
 	}
-	this->contacts[i].setDarkestSecret(darkestSecret);
+	_contacts[i].setDarkestSecret(darkestSecret);
+	return (true);
 }
 
-void	PhoneBook::addContacts(void)
+bool	PhoneBook::addContacts(void)
 {
 	int index = 0;
 
-	while (index < 8 && !this->contacts[index].getName().empty())
+	while (index < NB_CONTACT && !_contacts[index].getName().empty())
 		index++;
 
-	if (index == 8)
+	if (index == NB_CONTACT)
 	{
-		for (int i = 0; i < 7; i++)
-			this->contacts[i] = this->contacts[i + 1];
-		index = 7;
+		for (int i = 0; i < NB_CONTACT - 1; i++)
+			_contacts[i] = _contacts[i + 1];
+		index = NB_CONTACT - 1;
 	}
 
-	this->setContact(index);
-	if (this->nbContact != 8)
-		this->setNbContact(this->nbContact + 1);
+	if (!this->setContact(index))
+		return (false);
+	if (_nbContact != NB_CONTACT)
+		this->setNbContact(_nbContact + 1);
 	std::cerr << "The contact is added to the phonebook" << std::endl;
+	return (true);
 }
 
 static void	printBox(std::string txt)
@@ -157,7 +162,7 @@ static void	printBox(std::string txt)
 		std::cout << txt;
 }
 
-void	PhoneBook::printPhoneBook(void)
+void	PhoneBook::_printPhoneBook(void)
 {
 	std::cout.width(10);
 	std::cout << "index";
@@ -172,30 +177,21 @@ void	PhoneBook::printPhoneBook(void)
 	std::cout << "nick name";
 	std::cout << std::endl;
 	
-	for (int i = 0; i < this->nbContact; i++)
+	for (int i = 0; i < _nbContact; i++)
 	{
 		std::cout.width(10);
 		std::cout << i + 1;
 		std::cout << "|";
 		std::cout.width(10);
-		printBox(this->contacts[i].getName());
+		printBox(_contacts[i].getName());
 		std::cout << "|";
 		std::cout.width(10);
-		printBox(this->contacts[i].getLastName());
+		printBox(_contacts[i].getLastName());
 		std::cout << "|";
 		std::cout.width(10);
-		printBox(this->contacts[i].getNickname());
+		printBox(_contacts[i].getNickname());
 		std::cout << std::endl;
 	}
-}
-
-void	PhoneBook::printContact(int i)
-{
-	std::cout << "First Name : " << this->contacts[i].getName() << std::endl;
-	std::cout << "Last Name : " << this->contacts[i].getLastName() << std::endl;
-	std::cout << "Nick Name : " << this->contacts[i].getNickname() << std::endl;
-	std::cout << "Phone Number : " << this->contacts[i].getPhoneNumber() << std::endl;
-	std::cout << "Darkest Secret : " << this->contacts[i].getDarkestSecret() << std::endl;
 }
 
 void	PhoneBook::search(void)
@@ -203,13 +199,13 @@ void	PhoneBook::search(void)
 	std::string	index_str;
 	int			index;
 
-	if (this->nbContact == 0)
+	if (_nbContact == 0)
 	{
 		std::cerr << ERROR << "PhoneBook is empty : add a contact before search" << RESET << std::endl;
 		return ;
 	}
 
-	this->printPhoneBook();
+	_printPhoneBook();
 
 	while(1)
 	{
@@ -219,9 +215,9 @@ void	PhoneBook::search(void)
 		if (!index_str.empty() && !isAllSpace(index_str) && index_str.length() == 1)
 		{
 			index = index_str[0] - '0';
-			if (index >= 1 && index <= this->nbContact)
+			if (index >= 1 && index <= _nbContact)
 			{
-				printContact(index - 1);
+				_contacts[index - 1].printContact();
 				break ;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: anmorill <anmorill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:09:22 by anmorill          #+#    #+#             */
-/*   Updated: 2026/02/05 14:14:05 by anmorill         ###   ########.fr       */
+/*   Updated: 2026/02/17 09:08:49 by anmorill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PHONEBOOK_HPP
 
 # include "../includes/contact.hpp"
+
+# define NB_CONTACT	8
 
 class PhoneBook
 {
@@ -25,19 +27,18 @@ class PhoneBook
 		Contact	getContacts(int i);
 		int		getNbContact(void);
 
-		void	setContact(int i);
+		bool	setContact(int i);
 		void	setNbContact(int i);
 		
-		void	addContacts(void);
+		bool	addContacts(void);
 		void	search(void);
 	
 	private :
 
-		int		nbContact;
-		Contact contacts[8];
+		int		_nbContact;
+		Contact _contacts[NB_CONTACT];
 		
-		void	printContact(int i);
-		void	printPhoneBook(void);
+		void	_printPhoneBook(void);
 
 };
 

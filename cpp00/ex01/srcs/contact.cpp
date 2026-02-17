@@ -6,7 +6,7 @@
 /*   By: anmorill <anmorill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:09:09 by anmorill          #+#    #+#             */
-/*   Updated: 2026/02/12 10:28:22 by anmorill         ###   ########.fr       */
+/*   Updated: 2026/02/17 08:54:05 by anmorill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 Contact::Contact(void)
 {
-	this->firstName = "";
-	this->lastName = "";
-	this->nickname = "";
-	this->phoneNumber = "";
-	this->darkestSecret = "";
+	_firstName = "";
+	_lastName = "";
+	_nickname = "";
+	_phoneNumber = "";
+	_darkestSecret = "";
 	std::cout << GREY << "Constructor contact" << RESET << std::endl;
 }
 
@@ -29,50 +29,59 @@ Contact::~Contact()
 
 std::string	Contact::getName() const
 {
-	return (this->firstName);
+	return (_firstName);
 }
 
 void	Contact::setName(std::string newName)
 {
-	this->firstName = newName;
+	_firstName = newName;
 }
 
 std::string	Contact::getLastName(void) const
 {
-	return (this->lastName);
+	return (this->_lastName);
 }
 
 void	Contact::setLastName(std::string newLastName)
 {
-	this->lastName = newLastName;
+	_lastName = newLastName;
 }
 
 std::string	Contact::getNickname(void) const
 {
-	return (this->nickname);
+	return (_nickname);
 }
 
 void	Contact::setNickname(std::string newNickname)
 {
-	this->nickname = newNickname;
+	_nickname = newNickname;
 }
 
 std::string	Contact::getPhoneNumber(void) const
 {
-	return (this->phoneNumber);
+	return (_phoneNumber);
 }
 
 void	Contact::setPhoneNumber(std::string newPhoneNumber)
 {
-	this->phoneNumber = newPhoneNumber;
+	_phoneNumber = newPhoneNumber;
 }
 
 std::string	Contact::getDarkestSecret(void) const
 {
-	return (this->darkestSecret);
+	return (_darkestSecret);
 }
 
 void	Contact::setDarkestSecret(std::string newDarkestSecret)
 {
-	this->darkestSecret = newDarkestSecret;
+	_darkestSecret = newDarkestSecret;
+}
+
+void	Contact::printContact(void) const
+{
+	std::cout << "First Name : " << _firstName << std::endl;
+	std::cout << "Last Name : " << _lastName << std::endl;
+	std::cout << "Nick Name : " << _nickname << std::endl;
+	std::cout << "Phone Number : " << _phoneNumber << std::endl;
+	std::cout << "Darkest Secret : " << _darkestSecret << std::endl;
 }

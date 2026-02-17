@@ -6,7 +6,7 @@
 /*   By: anmorill <anmorill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:09:27 by anmorill          #+#    #+#             */
-/*   Updated: 2026/02/12 10:27:39 by anmorill         ###   ########.fr       */
+/*   Updated: 2026/02/17 08:53:14 by anmorill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ class Contact
 		void		setNickname(std::string newNickname);
 		void		setPhoneNumber(std::string newPhoneNumber);
 		void		setDarkestSecret(std::string newDarkestSecret);
+
+		void		printContact(void) const;
 	
 	private :
 
-		std::string	firstName;
-		std::string	lastName;
-		std::string	nickname;
-		std::string	phoneNumber;
-		std::string	darkestSecret;
+		std::string	_firstName;
+		std::string	_lastName;
+		std::string	_nickname;
+		std::string	_phoneNumber;
+		std::string	_darkestSecret;
 };
 
 #endif
