@@ -10,4 +10,6 @@ int main(void)
 	zombie2->announce();
 	delete zombie2;
 	randomChump("44");
+
+	return (0);
 }
