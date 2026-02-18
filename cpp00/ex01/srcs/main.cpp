@@ -6,7 +6,7 @@
 /*   By: anmorill <anmorill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 18:09:15 by anmorill          #+#    #+#             */
-/*   Updated: 2026/02/17 09:05:02 by anmorill         ###   ########.fr       */
+/*   Updated: 2026/02/17 09:40:35 by anmorill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(void)
 			print_action();
 	}
 	std::cout << std::endl;
-	std::cout << "🔸 You're out and your contact are lost 🔸" << std::endl;
+	std::cout << "🔸 You're out and your contacts are lost 🔸" << std::endl;
 	std::cout << std::endl;
 	return (0);
 }
