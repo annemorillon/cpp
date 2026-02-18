@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = sed
+NAME = readfile
 
 CPP = c++
 
@@ -9,15 +9,12 @@ CPP = c++
 # Includes
 INCLUDES = -Iincludes
 
-FLAGS = -Wall -Werror -Wextra -MMD -MP -std=c++98
+FLAGS = -Wall -Werror -Wextra -MMD -MP -std=c++98 -g
 
 # Sources
 SRCS_DIR			= srcs/
 
-SRCS				= main.cpp \
-					HumanA.cpp \
-					HumanB.cpp \
-					Weapon.cpp
+SRCS				= main.cpp
 
 SOURCES				= $(addprefix $(SRCS_DIR), $(SRCS))
 
