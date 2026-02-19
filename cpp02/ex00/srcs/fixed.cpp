@@ -13,9 +13,9 @@ Fixed::~Fixed()
 	std::cout << GREY << "Destructor called " << RESET << std::endl;
 }
 
-void	Fixed::copyConstructor(const Fixed& fixed)
+Fixed::Fixed(const Fixed& fixed)
 {
-	_value = fixed.getRawBits();
+	_value = fixed._value;
 	std::cout << GREY << "Copy constructor called " << RESET << std::endl;
 }
 
