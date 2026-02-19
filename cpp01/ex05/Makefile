@@ -14,7 +14,8 @@ FLAGS = -Wall -Werror -Wextra -MMD -MP -std=c++98 -g
 # Sources
 SRCS_DIR			= srcs/
 
-SRCS				= main.cpp
+SRCS				= main.cpp \
+					harl.cpp
 
 SOURCES				= $(addprefix $(SRCS_DIR), $(SRCS))
 

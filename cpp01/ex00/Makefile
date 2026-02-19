@@ -30,11 +30,11 @@ OBJS				= $(SOURCES:$(SRCS_DIR)%.cpp=$(OBJS_DIR)%.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CPP) $(FLAGS) $(OBJS) $(INCLUDES) -o $(NAME)
+	@$(CPP) $(FLAGS) $(OBJS) $(INCLUDES) -o $(NAME)
 	@echo "$(GREEN) $(BOLD)  ✅ Compilation done $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.cpp | $(OBJS_DIR)
-	echo "$(ORANGE) $(BOLD)  ⏳ Compilation in progress$(RESET)"
+	@echo "$(ORANGE) $(BOLD)  ⏳ Compilation in progress$(RESET)"
 	@$(CPP) $(INCLUDES) $(FLAGS) -c $< -o $@
 
 $(OBJS_DIR):

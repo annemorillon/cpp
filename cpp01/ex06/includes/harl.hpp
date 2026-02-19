@@ -16,8 +16,7 @@ class Harl
 		void	info(void);
 		void	warning(void);
 		void	error(void);
-
-		void	(Harl::*_ptrfunction[4])(void);
+		void	wrong(void);
 
 };
 

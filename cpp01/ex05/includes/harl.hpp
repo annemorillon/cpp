@@ -8,6 +8,9 @@ class Harl
 {
 	public:
 
+		Harl(void);
+		~Harl();
+
 		void	complain(std::string level);
 
 	private:
@@ -16,8 +19,9 @@ class Harl
 		void	info(void);
 		void	warning(void);
 		void	error(void);
+		void	wrong(void);
 
-		void	(Harl::*_ptrfunction[4])(void);
+		void	(Harl::*_ptrfunction[5])(void);
 
 };
 
