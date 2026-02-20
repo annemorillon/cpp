@@ -1,6 +1,4 @@
-#include "fixed.hpp"
-
-// static const int _fractionalBits = 0;
+#include "../includes/fixed.hpp"
 
 Fixed::Fixed(void)
 {
@@ -15,14 +13,16 @@ Fixed::~Fixed()
 
 Fixed::Fixed(const Fixed& fixed)
 {
-	_value = fixed._value;
 	std::cout << GREY << "Copy constructor called " << RESET << std::endl;
+	_value = fixed.getRawBits();
 }
 
-Fixed	Fixed::operator=(Fixed& fixed)
+Fixed	&Fixed::operator=(const Fixed& fixed)
 {
 	std::cout << GREY << "Copy assignment operator called " << RESET << std::endl;
-	return (fixed);
+	if (this != &fixed)
+		this->_value = fixed.getRawBits();
+	return (*this);
 }
 
 int	Fixed::getRawBits(void) const
