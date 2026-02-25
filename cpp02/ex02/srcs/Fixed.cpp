@@ -151,7 +151,7 @@ Fixed	Fixed::max(const Fixed& f1, const Fixed& f2)
 		return(f2);
 }
 
-Fixed	Fixed::min(const Fixed& f1, const Fixed& f2)
+Fixed Fixed::min(const Fixed& f1, const Fixed& f2)
 {
 	if (f1.getRawBits() < f2.getRawBits())
 		return (f1);
@@ -159,7 +159,7 @@ Fixed	Fixed::min(const Fixed& f1, const Fixed& f2)
 		return(f2);
 }
 
-Fixed	Fixed::max(const Fixed& f1, const Fixed& f2)
+Fixed	Fixed::max(Fixed& f1, Fixed& f2)
 {
 	if (f1.getRawBits() > f2.getRawBits())
 		return (f1);
@@ -175,7 +175,7 @@ Fixed	Fixed::min(Fixed& f1, Fixed& f2)
 		return(f2);
 }
 
-std::ostream& operator<<(std::ostream& os, Fixed& fixed)
+std::ostream& operator<<(std::ostream& os, const Fixed& fixed)
 {
 	os << fixed.toFloat();
 	return (os);
