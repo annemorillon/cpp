@@ -8,7 +8,7 @@ Point::~Point()
 {
 }
 
-Point::Point(float x, float y): _x(Fixed(x)), _y(Fixed(y))
+Point::Point(float const x, float const y): _x(Fixed(x)), _y(Fixed(y))
 {
 }
 
