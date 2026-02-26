@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = claptrap
+NAME = serena
 
 CPP = c++
 
