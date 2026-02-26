@@ -21,7 +21,7 @@ class Fixed
 	private:
 
 		int					_value;
-		static const int	_fractionalBits = 256;
+		static const int	_fractionalBits = 8;
 
 };
 

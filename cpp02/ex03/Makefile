@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = canonical
+NAME = bsp
 
 CPP = c++
 
@@ -15,7 +15,9 @@ FLAGS = -Wall -Werror -Wextra -MMD -MP -std=c++98 -g
 SRCS_DIR			= srcs/
 
 SRCS				= main.cpp \
-					Fixed.cpp
+					Fixed.cpp \
+					Point.cpp \
+					bsp.cpp
 
 SOURCES				= $(addprefix $(SRCS_DIR), $(SRCS))
 

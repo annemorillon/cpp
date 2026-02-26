@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = canonical
+NAME = round
 
 CPP = c++
 
