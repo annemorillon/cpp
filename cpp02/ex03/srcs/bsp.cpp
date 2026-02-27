@@ -19,17 +19,17 @@ The point is in the triangle if it is to the right or left of all the points.
 - has_neg = to the right of the line
 - has_pos = to the left of the line
 ps: if the point is on an edge or a vertex it's false */
-bool bsp( Point const a, Point const b, Point const c, Point const point)
+bool bsp(Point const a, Point const b, Point const c, Point const point)
 {
 	float ab = positionOfpoint(a, b, point);
-    float bc = positionOfpoint(b, c, point);
-    float ca = positionOfpoint(c, a, point);
+	float bc = positionOfpoint(b, c, point);
+	float ca = positionOfpoint(c, a, point);
 
 	bool has_neg = (ab < 0) || (bc < 0) || (ca < 0);
-    bool has_pos = (ab > 0) || (bc > 0) || (ca > 0);
+	bool has_pos = (ab > 0) || (bc > 0) || (ca > 0);
 	
 	if (ab == 0 || bc == 0 || ca == 0)
-    	return (false);
+		return (false);
 	if (has_neg && has_pos)
 		return (false);
 	return (true);

@@ -16,19 +16,18 @@ Point::Point(const Point& point): _x(Fixed(point._x)), _y(Fixed(point._y))
 {
 }
 
-Point   &Point::operator=(const Point& point)
+Point	&Point::operator=(const Point& point)
 {
-    (void) point;
-    return (*this);
-}
-            
-
-Fixed   Point::getX(void) const
-{
-    return (_x);
+	(void) point;
+	return (*this);
 }
 
-Fixed   Point::getY(void) const
+Fixed	Point::getX(void) const
 {
-    return (_y);
+	return (_x);
+}
+
+Fixed	Point::getY(void) const
+{
+	return (_y);
 }
