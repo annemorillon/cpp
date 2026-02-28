@@ -25,7 +25,7 @@ int main(void)
 	clap.takeDamage(1);
 	clap.attack("Nobody");
 
-	std::cout << "\n=== Test mort du ClapTrap ===" << std::endl;
+	std::cout << "\n=== Test mort du ScavTrap ===" << std::endl;
 	clap.takeDamage(100);
 
 	std::cout << "\n=== Tentative d'action après mort ===" << std::endl;

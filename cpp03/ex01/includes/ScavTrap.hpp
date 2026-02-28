@@ -1,3 +1,6 @@
+#ifndef SCAVTRAP_HPP
+# define SCAVTRAP_HPP
+
 #include "../includes/ClapTrap.hpp"
 
 class ScavTrap: public ClapTrap
@@ -17,3 +20,5 @@ class ScavTrap: public ClapTrap
 	private:
 
 };
+
+#endif
