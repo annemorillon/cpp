@@ -2,6 +2,10 @@
 
 ClapTrap::ClapTrap()
 {
+	_name = "random";
+	_attackDamage = 10;
+	_energyPoints = 10;
+	_hitPoints = 0;
 }
 
 ClapTrap::~ClapTrap()
@@ -14,10 +18,7 @@ ClapTrap::ClapTrap(std::string name): _name(name), _hitPoints(10), _energyPoints
 
 ClapTrap::ClapTrap(ClapTrap const& copy)
 {
-	_name = copy._name;
-	_attackDamage = copy._attackDamage;
-	_energyPoints = copy._hitPoints;
-	_hitPoints = copy._hitPoints;
+	*this = copy;
 }
 
 ClapTrap	&ClapTrap::operator=(ClapTrap const& old)
@@ -32,7 +33,7 @@ ClapTrap	&ClapTrap::operator=(ClapTrap const& old)
 	return (*this);
 }
 
-void ClapTrap::attack(std::string const& target)
+void	ClapTrap::attack(std::string const& target)
 {
 	if (_hitPoints == 0)
 	{
@@ -45,18 +46,6 @@ void ClapTrap::attack(std::string const& target)
 		return;
 	}
 	std::cout << "ClapTrap " << _name << " attacks " << target << ", causing " << _attackDamage << " points of damage!" << std::endl;
-	if (_hitPoints < _attackDamage)
-	{
-		_hitPoints = 0;
-		std::cout << "ClapTrap " << _name << " is dead and can't attack." << std::endl;
-		return;
-	} 
-	_hitPoints -= _attackDamage;
-	if (_hitPoints == 0)
-	{
-		std::cout << "ClapTrap " << _name << " is dead and can't attack." << std::endl;
-		return;
-	} 
 	_energyPoints--;
 }
 
@@ -64,10 +53,16 @@ void	ClapTrap::takeDamage(unsigned int amount)
 {
 	if (_hitPoints == 0)
 	{
-		std::cout << "ClapTrap " << _name << " is dead and can't attack." << std::endl;
+		std::cout << "ClapTrap " << _name << " is already dead." << std::endl;
 		return;
-	} 
-	_attackDamage = amount;   
+	}
+	if (_hitPoints < amount || _hitPoints - amount == 0)
+	{
+		_hitPoints = 0;
+		std::cout << "ClapTrap " << _name << " is dead." << std::endl;
+		return;
+	}
+	_hitPoints -= amount;
 	std:: cout << "ClapTrap " << _name << " takes " << amount << " points of damage!" << std::endl;
 }
 
@@ -75,7 +70,7 @@ void	ClapTrap::beRepaired(unsigned int amount)
 {
 	if (_hitPoints == 0)
 	{
-		std::cout << "ClapTrap " << _name << " is dead and can't attack." << std::endl;
+		std::cout << "ClapTrap " << _name << " is dead and can't repaire." << std::endl;
 		return;
 	} 
 	if (_energyPoints == 0)
@@ -85,7 +80,7 @@ void	ClapTrap::beRepaired(unsigned int amount)
 	}
 	_hitPoints += amount;
 	_energyPoints--;
-	std::cout << "ClapTrap " << _name << " repaired!" << std::endl;
+	std::cout << "ClapTrap " << _name << " repaired " << amount << " points of health !" << std::endl;
 }
 
 void	ClapTrap::setHitPoint(unsigned int value)

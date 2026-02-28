@@ -2,6 +2,10 @@
 
 ScavTrap::ScavTrap(): ClapTrap()
 {
+	_name = "random";
+	_attackDamage = 100;
+	_energyPoints = 50;
+	_hitPoints = 20;
 }
 
 ScavTrap::~ScavTrap()
@@ -10,6 +14,9 @@ ScavTrap::~ScavTrap()
 
 ScavTrap::ScavTrap(std::string name): ClapTrap(name)
 {
+	_attackDamage = 100;
+	_energyPoints = 50;
+	_hitPoints = 20;
 }
 
 ScavTrap::ScavTrap(ScavTrap const& copy): ClapTrap(copy)
