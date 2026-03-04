@@ -3,7 +3,7 @@
 FragTrap::FragTrap(): ClapTrap()
 {
 	std::cout << GREY "FragTrap default constructor called " RESET << std::endl;
-	_name = "_FRagTrap_name";
+	_name = "_FragTrap_name";
 	_hitPoints = 100;
 	_energyPoints = 100;
 	_attackDamage = 30;
@@ -30,13 +30,7 @@ FragTrap::FragTrap(FragTrap const& copy): ClapTrap(copy)
 
 FragTrap	&FragTrap::operator=(FragTrap const& old)
 {
-	if (this != &old)
-	{
-		_name = old._name;
-		_hitPoints = old._hitPoints;
-		_energyPoints = old._hitPoints;
-		_attackDamage = old._attackDamage;
-	}
+	ClapTrap::operator=(old);
 	return (*this);
 }
 

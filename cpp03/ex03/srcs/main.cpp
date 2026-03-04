@@ -34,11 +34,12 @@ int main(void)
 	clap.beRepaired(10);
 	clap.takeDamage(10);
 
-	// std::cout << "\n=== Copy DiamondTrap ===" << std::endl;
-	// DiamondTrap clap2 = clap;
-	// clap2.attack("Ghost");
-	// DiamondTrap clap3(clap);
-	// clap3.beRepaired(10);
+	std::cout << "\n=== Copy DiamondTrap ===" << std::endl;
+	DiamondTrap clap2 = clap;
+	clap2.whoAmI();
+	clap2.attack("Ghost");
+	DiamondTrap clap3(clap);
+	clap3.beRepaired(10);
 
 	return (0);
 }

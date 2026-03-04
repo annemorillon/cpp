@@ -31,13 +31,9 @@ DiamondTrap::DiamondTrap(DiamondTrap const& copy): ClapTrap(copy), ScavTrap(copy
 
 DiamondTrap	&DiamondTrap::operator=(DiamondTrap const& old)
 {
+	ClapTrap::operator=(old);
 	if (this != &old)
-	{
 		_name = old._name;
-		_hitPoints = old._hitPoints;
-		_energyPoints = old._hitPoints;
-		_attackDamage = old._attackDamage;
-	}
 	return (*this);
 }
 
@@ -49,5 +45,5 @@ void	DiamondTrap::attack(std::string const& target)
 void	DiamondTrap::whoAmI()
 {
 	std::cout << "DiamondTrap Name : " << _name << std::endl;
-	std::cout << "ClaTrap Name : " << ClapTrap::_name << std::endl;
+	std::cout << "ClapTrap Name : " << ClapTrap::_name << std::endl;
 }

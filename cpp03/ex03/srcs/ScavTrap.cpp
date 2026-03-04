@@ -30,13 +30,7 @@ ScavTrap::ScavTrap(ScavTrap const& copy): ClapTrap(copy)
 
 ScavTrap	&ScavTrap::operator=(ScavTrap const& old)
 {
-	if (this != &old)
-	{
-		_name = old._name;
-		_hitPoints = old._hitPoints;
-		_energyPoints = old._hitPoints;
-		_attackDamage = old._attackDamage;
-	}
+	ClapTrap::operator=(old);
 	return (*this);
 }
 
