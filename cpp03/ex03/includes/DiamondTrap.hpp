@@ -16,10 +16,10 @@ class DiamondTrap: public ScavTrap, public FragTrap
 
 		DiamondTrap	&operator=(DiamondTrap const& old);
 
-		// void		ScavTrap::attack(std::string const& target);
+		void		attack(std::string const& target);
 		void		whoAmI();
 
-	protected:
+	private:
 		std::string	_name;
 
 };
