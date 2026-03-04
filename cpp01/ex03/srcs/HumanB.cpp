@@ -3,6 +3,7 @@
 HumanB::HumanB(std::string name)
 {
 	_name = name;
+	_weapon = NULL;
 	std::cout << GREY << "Constructor HumanB" << RESET << std::endl;
 }
 
@@ -11,14 +12,19 @@ HumanB::~HumanB()
 	std::cout << GREY << "Destructor HumanB" << RESET << std::endl;
 }
 
-void	HumanB::setWeapon(Weapon& weapon)
+void HumanB::setWeapon(Weapon &weapon)
 {
 	this->_weapon = &weapon;
 }
 
-void	HumanB::attack()
+void HumanB::attack()
 {
 	std::cout << this->_name;
-	std::cout << " attacks with their ";
-	std::cout << this->_weapon->getType() << std::endl;
+	if (!_weapon)
+		std::cout << " don't have a weapon" << std::endl;
+	else
+	{
+		std::cout << " attacks with their ";
+		std::cout << this->_weapon->getType() << std::endl;
+	}
 }

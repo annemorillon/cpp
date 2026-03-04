@@ -10,7 +10,7 @@ Weapon::~Weapon()
 	std::cout << GREY << "Destructor Weapon" << RESET << std::endl;
 }
 
-std::string	Weapon::getType()
+std::string	Weapon::getType() const
 {
 	return (this->_type);
 }
