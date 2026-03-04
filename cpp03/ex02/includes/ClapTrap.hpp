@@ -2,6 +2,8 @@
 # define CLAPTRAP_HPP
 
 # include "iostream"
+# define RESET		"\e[0;37m"
+# define GREY		"\e[2;37m"
 
 class ClapTrap
 {
