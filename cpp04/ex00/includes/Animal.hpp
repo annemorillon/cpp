@@ -1,0 +1,28 @@
+#ifndef ANIMAL_HPP
+# define ANIMAL_HPP
+
+# include "iostream"
+# define RESET		"\e[0;37m"
+# define GREY		"\e[2;37m"
+
+class Animal
+{
+	public:
+
+		Animal();
+		virtual ~Animal();
+
+		Animal(std::string type);
+		Animal(Animal const& copy);
+
+		Animal		&operator=(Animal const& old);
+
+		virtual void		makeSound() const;
+		virtual std::string	getType() const;
+
+	protected:
+
+		std::string	_type;
+};
+
+#endif
