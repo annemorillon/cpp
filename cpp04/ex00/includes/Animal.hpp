@@ -4,6 +4,9 @@
 # include "iostream"
 # define RESET		"\e[0;37m"
 # define GREY		"\e[2;37m"
+# define PINK		"\e[0;35m"
+# define DARKPINK	"\e[2;35m"
+# define UNDERLINE	"\e[4;37m"
 
 class Animal
 {

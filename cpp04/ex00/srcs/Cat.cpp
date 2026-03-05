@@ -18,7 +18,8 @@ Cat::Cat(Cat const& copy): Animal(copy)
 
 Cat &Cat::operator=(Cat const& old)
 {
-	Animal::operator=(old);
+	if (this != &old)
+		Animal::operator=(old);
 	return (*this);
 }
 

@@ -18,7 +18,8 @@ Dog::Dog(Dog const& copy): Animal(copy)
 
 Dog &Dog::operator=(Dog const& old)
 {
-	Animal::operator=(old);
+	if (this != &old)
+		Animal::operator=(old);
 	return (*this);
 }
 
