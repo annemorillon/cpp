@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = animals
+NAME = materia
 
 CPP = c++
 
