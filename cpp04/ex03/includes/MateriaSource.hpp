@@ -1,17 +1,20 @@
-#ifndef IMATERIASOURCE_HPP
-# define IMATERIASOURCE_HPP
+#ifndef MATERIASOURCE_HPP
+# define MATERIASOURCE_HPP
 
 # include "iostream"
 # include "../includes/AMateria.hpp"
 
-class IMateriaSource
+class MateriaSource
 {
 	public:
 
-		virtual ~IMateriaSource() {}
+		virtual ~MateriaSource() {}
 		virtual void learnMateria(AMateria*) = 0;
 		virtual AMateria* createMateria(std::string const & type) = 0;
 
+	private:
+
+		AMateria*	
 };
 
 #endif
