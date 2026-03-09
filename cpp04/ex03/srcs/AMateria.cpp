@@ -23,9 +23,7 @@ AMateria::AMateria(AMateria const& copy)
 AMateria	&AMateria::operator=(AMateria const& old)
 {
 	if (this != &old)
-	{
 		_type = old._type;
-	}
 	return (*this);
 }
 
@@ -36,5 +34,6 @@ std::string const	AMateria::getType() const
 
 void		AMateria::use(ICharacter& target)
 {
+	(void) target;
 	std::cout << _type << ": use is not defined" << std::endl;
 }

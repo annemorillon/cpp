@@ -1,8 +1,7 @@
 #ifndef ICHARACTER_HPP
 # define ICHARACTER_HPP
 
-# include "iostream"
-# include "../includes/AMateria.hpp"
+class AMateria;
 
 class ICharacter
 {

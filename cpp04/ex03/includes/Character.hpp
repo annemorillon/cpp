@@ -1,6 +1,3 @@
-// name
-// copy deep
-
 #ifndef CHARACTER_HPP
 # define CHARACTER_HPP
 
@@ -22,7 +19,7 @@ class Character: public ICharacter
 		std::string const& getName() const;
 		void equip(AMateria* m);
 		void unequip(int ids);
-		void use(int idx, ICharacter& target);
+		void use(int ids, ICharacter& target);
 
 	protected:
 		std::string		_name;

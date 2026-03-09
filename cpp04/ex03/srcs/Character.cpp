@@ -9,6 +9,12 @@ Character::Character(): _name("Character")
 
 Character::~Character()
 {
+	for (int i = 0; i < 4; i++)
+	{
+		if (_inventory[i])
+			delete _inventory[i];
+		_inventory[i] = NULL;
+	}
 	std::cout << GREY "Character destructor called " RESET << std::endl;
 }
 
@@ -21,6 +27,8 @@ Character::Character(std::string name): _name(name)
 
 Character::Character(Character const& copy)
 {
+	for (int i = 0; i < 4; i++)
+		_inventory[i] = NULL;
 	std::cout << GREY "Character constructor copy called " RESET << std::endl;
 	*this = copy;
 }
@@ -33,11 +41,15 @@ Character	&Character::operator=(Character const& old)
 		for (int i = 0; i < 4; i++)
 		{
 			if (_inventory[i])
-				delete _inventory[i]; // est-ce qu'il faut delete ??
+				delete _inventory[i];
 		}
 		for (int i = 0; i < 4; i++)
-			_inventory[i] = new AMateria(*old._inventory[i]);
-		// copy deep for materias
+		{
+			if (old._inventory[i])
+				_inventory[i] = old._inventory[i]->clone();
+			else
+				_inventory[i] = NULL;
+		}
 	}
 	return (*this);
 }
@@ -49,12 +61,11 @@ std::string const&	Character::getName() const
 
 void	Character::equip(AMateria* m)
 {
-	for (int idx = 0; idx < 4; idx++)
+	for (int ids = 0; ids < 4; ids++)
 	{
-		if (!_inventory[idx])
+		if (!_inventory[ids])
 		{
-			_inventory[idx] = m;
-			std::cout << _name << " equip " << _inventory[idx]->getType() << std::endl;
+			_inventory[ids] = m->clone();
 			return ;
 		}
 	}
@@ -62,11 +73,11 @@ void	Character::equip(AMateria* m)
 
 void	Character::unequip(int ids)
 {
-	std::cout << _name << " leaves on the floor " << _inventory[ids]->getType() << std::endl;
 	_inventory[ids] = NULL;
 }
 
-void	Character::use(int idx, ICharacter& target)
+void	Character::use(int ids, ICharacter& target)
 {
-	_inventory[idx]->use(target);
+	if (ids >= 0 && ids < 4 && _inventory[ids])
+		_inventory[ids]->use(target);
 }
