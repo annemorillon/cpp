@@ -20,6 +20,7 @@ class DiamondTrap: public ScavTrap, public FragTrap
 		void		whoAmI();
 
 	private:
+
 		std::string	_name;
 
 };

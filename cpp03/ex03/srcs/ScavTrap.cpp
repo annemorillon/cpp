@@ -47,7 +47,7 @@ void	ScavTrap::attack(std::string const& target)
 		return;
 	} 
 	if (_energyPoints == 0)
-	{
+	{ 
 		std::cout << "ScavTrap " << _name << " has no energy to attack." << std::endl;
 		return;
 	}
