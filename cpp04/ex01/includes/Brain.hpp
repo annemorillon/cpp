@@ -10,14 +10,14 @@ class Brain
 	public:
 
 		Brain();
-		virtual ~Brain();
+		~Brain();
 
 		Brain(Brain const& copy);
 
 		Brain		&operator=(Brain const& old);
 
-		virtual void		setIdea(std::string value, unsigned int index);
-		virtual std::string	getIdea(unsigned int index) const;
+		void		setIdea(std::string value, unsigned int index);
+		std::string	getIdea(unsigned int index) const;
 
 	protected:
 

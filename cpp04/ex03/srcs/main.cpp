@@ -44,28 +44,33 @@ int	main()
 	std::cout << DARKPINK "-> No segfault or no leaks" RESET << std::endl;
 
 	std::cout << PINK "\n=== Testing Deep Copy ===" RESET << std::endl;
-	tmp = src->createMateria("cure");
+	IMateriaSource* src2 = new MateriaSource();
+	src2->learnMateria(new Ice());
+	src2->learnMateria(new Cure());
+	AMateria* tmp2;
+	tmp2 = src2->createMateria("cure");
 	Character* original = new Character("original");
-	original->equip(tmp);
+	original->equip(tmp2);
 	Character* copy = new Character(*original);
 	std::cout << "Original use: ";
 	original->use(0, *bob);
 	std::cout << "Copy use:     ";
 	copy->use(0, *bob);
 
-	tmp = src->createMateria("ice");
-	copy->equip(tmp);
+	original->equip(tmp2); // no mandatory: just to check if there's a double pointer in equip: check the deletion handling
+	tmp2 = src2->createMateria("ice");
+	copy->equip(tmp2);
 	std::cout << "\nAfter modifying copy:" << std::endl;
 	std::cout << "Original use: ";
-	original->use(0, *bob);
+	original->use(1, *bob);
 	std::cout << "Copy use:     ";
-	copy->use(0, *bob);
+	copy->use(1, *bob);
 	std::cout << DARKPINK "-> must be different" RESET << std::endl;
 
 	std::cout << PINK "\n=== Testing Deep Copy with assignment ===" RESET << std::endl;
-	tmp = src->createMateria("cure");
+	tmp2 = src2->createMateria("cure");
 	Character* Original = new Character("original");
-	Original->equip(tmp);
+	Original->equip(tmp2);
 	Character* Copy = new Character("copy_empty");
 	*Copy = *Original;
 	std::cout << "Original use: ";
@@ -73,8 +78,8 @@ int	main()
 	std::cout << "Copy use:     ";
 	Copy->use(0, *bob);
 
-	tmp = src->createMateria("ice");
-	Copy->equip(tmp);
+	tmp2 = src2->createMateria("ice");
+	Copy->equip(tmp2);
 	std::cout << "\nAfter modifying Copy:" << std::endl;
 	std::cout << "Original use: ";
 	Original->use(1, *bob);
@@ -86,6 +91,7 @@ int	main()
 	delete bob;
 	delete me;
 	delete src;
+	delete src2;
 	delete original;
 	delete copy;
 	delete Copy;

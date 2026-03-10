@@ -11,13 +11,13 @@ class Cat: public Animal
 	public:
 
 		Cat();
-		virtual ~Cat();
+		~Cat();
 
 		Cat(Cat const& copy);
 
 		Cat		&operator=(Cat const& old);
 
-		virtual void	makeSound() const;
+		void	makeSound() const;
 
 };
 

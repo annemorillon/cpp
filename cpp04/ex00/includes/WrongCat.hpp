@@ -11,13 +11,13 @@ class WrongCat: public WrongAnimal
 	public:
 
 		WrongCat();
-		virtual ~WrongCat();
+		~WrongCat();
 
 		WrongCat(WrongCat const& copy);
 
 		WrongCat		&operator=(WrongCat const& old);
 
-		virtual void	makeSound() const;
+		void	makeSound() const;
 
 };
 

@@ -61,6 +61,8 @@ void	Character::equip(AMateria* materia)
 		return;
 	for (int ids = 0; ids < 4; ids++)
 	{
+		if (materia == _inventory[ids])
+			return ;
 		if (!_inventory[ids] && materia)
 		{
 			_inventory[ids] = materia;

@@ -44,6 +44,8 @@ MateriaSource	&MateriaSource::operator=(MateriaSource const& old)
 
 void	MateriaSource::learnMateria(AMateria* materia)
 {
+	if (!materia)
+		return ;
 	for (int ids = 0; ids < 4; ids++)
 	{
 		if (!_inventory[ids])
