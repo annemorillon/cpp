@@ -17,9 +17,10 @@ class Character: public ICharacter
 		Character		&operator=(Character const& old);
 
 		std::string const& getName() const;
-		void equip(AMateria* m);
+		void equip(AMateria* materia);
 		void unequip(int ids);
 		void use(int ids, ICharacter& target);
+		AMateria* getMateria(int ids) const;
 
 	protected:
 		std::string		_name;

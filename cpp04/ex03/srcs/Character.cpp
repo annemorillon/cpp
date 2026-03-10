@@ -28,7 +28,7 @@ Character::Character(std::string name): _name(name)
 Character::Character(Character const& copy)
 {
 	for (int i = 0; i < 4; i++)
-		_inventory[i] = NULL;
+			_inventory[i] = NULL;
 	std::cout << GREY "Character constructor copy called " RESET << std::endl;
 	*this = copy;
 }
@@ -42,13 +42,9 @@ Character	&Character::operator=(Character const& old)
 		{
 			if (_inventory[i])
 				delete _inventory[i];
-		}
-		for (int i = 0; i < 4; i++)
-		{
+			_inventory[i] = NULL;
 			if (old._inventory[i])
 				_inventory[i] = old._inventory[i]->clone();
-			else
-				_inventory[i] = NULL;
 		}
 	}
 	return (*this);
@@ -59,13 +55,15 @@ std::string const&	Character::getName() const
 	return (_name);
 }
 
-void	Character::equip(AMateria* m)
+void	Character::equip(AMateria* materia)
 {
+	if (!materia)
+		return;
 	for (int ids = 0; ids < 4; ids++)
 	{
-		if (!_inventory[ids])
+		if (!_inventory[ids] && materia)
 		{
-			_inventory[ids] = m->clone();
+			_inventory[ids] = materia;
 			return ;
 		}
 	}
@@ -73,11 +71,19 @@ void	Character::equip(AMateria* m)
 
 void	Character::unequip(int ids)
 {
-	_inventory[ids] = NULL;
+	if (ids >= 0 && ids < 4 && _inventory[ids])
+		_inventory[ids] = NULL;
 }
 
 void	Character::use(int ids, ICharacter& target)
 {
 	if (ids >= 0 && ids < 4 && _inventory[ids])
 		_inventory[ids]->use(target);
+}
+
+AMateria*	Character::getMateria(int ids) const
+{
+	if (ids >= 0 && ids < 4)
+		return (_inventory[ids]);
+	return (NULL);
 }

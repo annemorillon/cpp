@@ -13,6 +13,7 @@ MateriaSource::~MateriaSource()
 	{
 		if (_inventory[i])
 			delete _inventory[i];
+		_inventory[i] = NULL;
 	}
 	std::cout << GREY "Character destructor called " RESET << std::endl;
 }
@@ -29,17 +30,13 @@ MateriaSource	&MateriaSource::operator=(MateriaSource const& old)
 {
 	if (this != &old)
 	{
-		for (int i = 0; i < 4; i++)
-		{
-			if (_inventory[i])
-				delete _inventory[i];
-		}
 		for (int ids = 0; ids < 4; ids++)
 		{
 			if (_inventory[ids])
+				delete _inventory[ids];
+			_inventory[ids] = NULL;
+			if (_inventory[ids])
 				_inventory[ids] = old._inventory[ids]->clone();
-			else
-				_inventory[ids] = NULL;
 		}
 	}
 	return (*this);
@@ -51,7 +48,8 @@ void	MateriaSource::learnMateria(AMateria* materia)
 	{
 		if (!_inventory[ids])
 		{
-			_inventory[ids] = materia; // est-ce qu'il faut pas new ?
+			_inventory[ids] = materia->clone();
+			delete materia;
 			return ;
 		}
 	}
@@ -62,7 +60,7 @@ AMateria*	MateriaSource::createMateria(std::string const& type)
 {
 	for (int ids = 0; ids < 4; ids++)
 	{
-		if (_inventory[ids]->getType() == type)
+		if (_inventory[ids] && _inventory[ids]->getType() == type)
 			return (_inventory[ids]->clone());
 	}
 	return (NULL);
