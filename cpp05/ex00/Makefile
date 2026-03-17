@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = materia
+NAME = bureaucrat
 
 CPP = c++
 
@@ -15,11 +15,7 @@ FLAGS = -Wall -Werror -Wextra -MMD -MP -Wno-shadow -Wshadow -std=c++98 -g
 SRCS_DIR			= srcs/
 
 SRCS				= main.cpp \
-					AMateria.cpp \
-					Character.cpp \
-					Cure.cpp \
-					Ice.cpp \
-					MateriaSource.cpp
+					Bureaucrat.cpp
 
 SOURCES				= $(addprefix $(SRCS_DIR), $(SRCS))
 

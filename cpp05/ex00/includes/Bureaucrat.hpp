@@ -2,8 +2,6 @@
 # define BUREAUCRAT_HPP
 
 # include "iostream"
-# include "../includes/ICharacter.hpp"
-# include "../includes/IMateriaSource.hpp"
 
 # define RESET		"\e[0;37m"
 # define GREY		"\e[2;37m"
@@ -15,10 +13,22 @@ class Bureaucrat
 {
 	public: 
 	
+		class GradeTooHighException: public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
+
+		class GradeTooLowException: public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
+
 		Bureaucrat();
 		virtual ~Bureaucrat();
 
-		Bureaucrat(std::string const& name);
+		Bureaucrat(std::string const name, int grade);
 		Bureaucrat(Bureaucrat const& copy);
 
 		Bureaucrat	&operator=(Bureaucrat const& old);
@@ -33,5 +43,7 @@ class Bureaucrat
 		std::string const	_name;
 		int					_grade;
 };
+
+std::ostream&	operator<<(std::ostream& os, Bureaucrat const& bureaucrat);
 
 #endif
