@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = bureaucrat
+NAME = form
 
 CPP = c++
 

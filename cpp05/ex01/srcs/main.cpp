@@ -17,6 +17,7 @@ int main(void)
 	{
 		Bureaucrat Julia("Julia", 125);
 		Form form2("contrat", 10, 10);
+		std::cout << form2;
 		Julia.signForm(form2);
 	}
 	catch(std::exception const& e)
