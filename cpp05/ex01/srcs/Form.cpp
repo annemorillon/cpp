@@ -1,4 +1,5 @@
-#include "../includes/Form.hpp"
+#include "Form.hpp"
+#include "Bureaucrat.hpp"
 
 Form::Form(): _name("Default"), _signed(false), _gradeToSign(1), _gradeToExecute(1)
 {}

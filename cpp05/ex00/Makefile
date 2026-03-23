@@ -9,7 +9,7 @@ CPP = c++
 # Includes
 INCLUDES = -Iincludes
 
-FLAGS = -Wall -Werror -Wextra -MMD -MP -Wno-shadow -Wshadow -std=c++98 -g
+FLAGS = -Wall -Werror -Wextra -MMD -MP -std=c++98 -g
 
 # Sources
 SRCS_DIR			= srcs/

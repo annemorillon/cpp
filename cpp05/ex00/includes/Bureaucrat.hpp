@@ -39,7 +39,8 @@ class Bureaucrat
 		void				incrementGrade();
 		void				decrementGrade();
 
-	protected:
+	private:
+
 		std::string const	_name;
 		int					_grade;
 };
