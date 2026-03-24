@@ -15,6 +15,12 @@ class Intern
 
 		AForm*	makeForm(std::string name, std::string target);
 
+		class NotFormException : public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
+
 };
 
 #endif
