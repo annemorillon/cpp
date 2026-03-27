@@ -2,6 +2,7 @@
 
 int main(void)
 {
+	std::cout << PINK "=== Invalid grade (300) ===" RESET << std::endl;
 	try
 	{
 		Bureaucrat Etienne("Etienne", 300);
@@ -13,6 +14,7 @@ int main(void)
 	{
 		std::cerr << e.what() << std::endl;
 	}
+	std::cout << PINK "\n=== Invalid grade (-5) ===" RESET << std::endl;
 	try
 	{
 		Bureaucrat Virginie("Virginie", -5);
@@ -25,6 +27,7 @@ int main(void)
 	{
 		std::cerr << e.what() << std::endl;
 	}
+	std::cout << PINK "\n=== Valid bureaucrat ===" RESET << std::endl;
 	try
 	{
 		Bureaucrat George("George", 1);
@@ -35,6 +38,7 @@ int main(void)
 	{
 		std::cerr << e.what() << std::endl;
 	}
+	std::cout << PINK "\n=== Increment & decrement ===" RESET << std::endl;
 	try
 	{
 		Bureaucrat Julia("Julia", 100);

@@ -8,7 +8,7 @@ RobotomyRequestForm::RobotomyRequestForm(): AForm(), _target("Default")
 {}
 RobotomyRequestForm::~RobotomyRequestForm()
 {}
-RobotomyRequestForm::RobotomyRequestForm(std::string target)
+RobotomyRequestForm::RobotomyRequestForm(const std::string& target)
 	: AForm("RobotomyRequestForm", 45, 72), _target(target)
 {}
 

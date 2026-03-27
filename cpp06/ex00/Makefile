@@ -1,6 +1,6 @@
 #################### ARGUMENTS ####################
 
-NAME = conversion
+NAME = convert
 
 CPP = c++
 

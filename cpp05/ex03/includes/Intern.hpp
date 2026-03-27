@@ -15,6 +15,10 @@ class Intern
 
 		AForm*	makeForm(std::string name, std::string target);
 
+		AForm*	presidentialForm(const std::string& target);
+		AForm*	robotomyForm(const std::string& target);
+		AForm*	schrubberyForm(const std::string& target);
+
 		class NotFormException : public std::exception
 		{
 			public:

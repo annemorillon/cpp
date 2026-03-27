@@ -2,14 +2,10 @@
 #include "AForm.hpp"
 
 Bureaucrat::Bureaucrat(): _name("Default"), _grade(150)
-{
-	// std::cout << GREY "Bureaucrat default constructor called " RESET << std::endl;
-}
+{}
 
 Bureaucrat::~Bureaucrat()
-{
-	// std::cout << GREY "Bureaucrat destructor called " RESET << std::endl;
-}
+{}
 
 Bureaucrat::Bureaucrat(std::string const name, int grade): _name(name)
 {
@@ -18,12 +14,10 @@ Bureaucrat::Bureaucrat(std::string const name, int grade): _name(name)
 	else if (grade > 150)
 		throw GradeTooLowException();
 	_grade = grade;
-	// std::cout << GREY "Bureaucrat constructor called " RESET << std::endl;	
 }
 
 Bureaucrat::Bureaucrat(Bureaucrat const& copy)
 {
-	// std::cout << GREY "Bureaucrat constructor copy called " RESET << std::endl;	
 	*this = copy;
 }
 
