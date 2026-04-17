@@ -15,7 +15,7 @@ FLAGS = -Wall -Werror -Wextra -MMD -MP -std=c++98 -g
 SRCS_DIR			= srcs/
 
 SRCS				= main.cpp \
-					ScalarConverter.cpp					
+					ScalarConverter.cpp
 
 SOURCES				= $(addprefix $(SRCS_DIR), $(SRCS))
 

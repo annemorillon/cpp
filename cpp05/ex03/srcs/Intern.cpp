@@ -54,23 +54,16 @@ AForm*	Intern::makeForm(std::string name, std::string target)
 		std::cout << "Error: target doesn't exist !" << std::endl;
 		return (NULL);
 	}
-	// try
-	// {
-		while (i < 3)
+	while (i < 3)
+	{
+		if (tab[i] == name)
 		{
-			if (tab[i] == name)
-			{
-				std::cout << "Intern creates " << name << std::endl;
-				return (this->*ptrForm[i])(target);
-			}
-			i++;
+			std::cout << "Intern creates " << name << std::endl;
+			return (this->*ptrForm[i])(target);
 		}
-		throw NotFormException();
-// 	}
-// 	catch(const std::exception& e)
-// 	{
-// 		std::cerr << e.what() << '\n';
-// 	}
+		i++;
+	}
+	throw NotFormException();
 }
 
 const char* Intern::NotFormException::what() const throw()

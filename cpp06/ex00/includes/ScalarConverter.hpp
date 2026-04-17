@@ -3,6 +3,14 @@
 
 # include "iostream"
 
+enum TYPE {
+	CHAR,
+	INT,
+	FLOAT,
+	DOUBLE,
+	OTHER
+};
+
 class ScalarConverter
 {
 	public:
