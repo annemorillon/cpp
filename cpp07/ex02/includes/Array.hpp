@@ -13,10 +13,10 @@ class Array
 		Array(size_t n);
 		~Array();
 
-		Array(Array const& copy); // verifier la deep copy
-		Array	&operator=(Array const& old); // verifier la deep copy
+		Array(Array const& copy);
+		Array	&operator=(Array const& old);
 
-		T&	operator[](size_t idx); // lever une exception si idx is out
+		T&	operator[](size_t idx);
 		const T&	operator[](size_t idx) const;
 		size_t	size(void);
 
@@ -30,7 +30,7 @@ Array<T>::Array(): _size(0), _array(0){
 }
 
 template <typename T>
-Array<T>::Array(size_t n): _size(0), _array(0){
+Array<T>::Array(size_t n): _size(n), _array(0){
 	_array = new T[n]();
 }
 
