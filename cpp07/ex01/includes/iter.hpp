@@ -6,6 +6,8 @@
 template <typename T, typename F>
 void iter(T *tab, const int len, F *function)
 {
+	if (!tab || len == 0)
+		return ;
 	for(int i = 0; i < len; i++)
 		function(tab[i]);
 }
