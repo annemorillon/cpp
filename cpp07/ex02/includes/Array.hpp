@@ -21,8 +21,8 @@ class Array
 		size_t	size(void);
 
 	private:
-		T		*_array;
 		size_t	_size;
+		T		*_array;
 };
 
 template <typename T>
