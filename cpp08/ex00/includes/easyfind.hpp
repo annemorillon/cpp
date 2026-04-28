@@ -4,17 +4,15 @@
 # include "iostream"
 
 template <typename T>
-T&	easyfind(T type, int nb)
+typename T::iterator	easyfind(T& type, size_t nb)
 {
 	if (type.empty())
 		return ;
-	int i = 0;
-	while (type[i])
+	for (iterator it1 = type.begin(); it1 != type.end(); ++it1)
 	{
-		if (type[i] == nb)
-			return (type[i])
+		if (it1 == nb)
+			return (it1);
 	}
-
 }
 
 #endif
