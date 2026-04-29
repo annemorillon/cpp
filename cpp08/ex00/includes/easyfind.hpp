@@ -6,13 +6,10 @@
 template <typename T>
 typename T::iterator	easyfind(T& type, size_t nb)
 {
-	if (type.empty())
-		return ;
-	for (iterator it1 = type.begin(); it1 != type.end(); ++it1)
-	{
-		if (it1 == nb)
-			return (it1);
-	}
+	typename T::iterator it = find(type.begin(), type.end(), nb);
+	 if (it == type.end())
+		throw std::runtime_error("value not found");
+	return it;
 }
 
 #endif

@@ -14,10 +14,10 @@ int main(void) {
     vec.push_back(5);
  
     try {
-        std::cout << "vector - find 3 : " << *easyfind(vec, 3) << std::endl;
+        std::cout << "vector - find 5 : " << *easyfind(vec, 5) << std::endl;
         std::cout << "vector - find 9 : " << *easyfind(vec, 9) << std::endl;
     } catch (std::exception &e) {
-        std::cout << "Exception: " << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
     }
  
     // Test list
@@ -30,7 +30,7 @@ int main(void) {
         std::cout << "list - find 20 : " << *easyfind(lst, 20) << std::endl;
         std::cout << "list - find 99 : " << *easyfind(lst, 99) << std::endl;
     } catch (std::exception &e) {
-        std::cout << "Exception: " << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
     }
  
     // Test deque
@@ -41,8 +41,9 @@ int main(void) {
  
     try {
         std::cout << "deque - find 100 : " << *easyfind(deq, 100) << std::endl;
+        std::cout << "deque - find 100 : " << *easyfind(deq, 400) << std::endl;
     } catch (std::exception &e) {
-        std::cout << "Exception: " << e.what() << std::endl;
+        std::cout << e.what() << std::endl;
     }
  
     return 0;
