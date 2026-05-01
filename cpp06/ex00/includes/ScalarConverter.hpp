@@ -23,7 +23,7 @@ class ScalarConverter
 {
 	public:
 
-		static void convert(std::string param);
+		static void convert(std::string value);
 
 	private:
 

@@ -5,37 +5,37 @@
 
 ScalarConverter::ScalarConverter(){}
 ScalarConverter::~ScalarConverter(){}
-ScalarConverter::ScalarConverter(ScalarConverter const& INVALID){*this = INVALID;}
-ScalarConverter ScalarConverter::operator=(ScalarConverter const& INVALID)
+ScalarConverter::ScalarConverter(ScalarConverter const& other){*this = other;}
+ScalarConverter ScalarConverter::operator=(ScalarConverter const& other)
 {
-	(void) INVALID;
+	(void) other;
 	return (*this);
 }
 
-static int	detectType(std::string param)
+static int	detectType(std::string value)
 {
-	if (param == "nan" || param == "+inf" || param == "-inf" \
-		|| param == "nanf" || param == "+inff" || param == "-inff")
+	if (value == "nan" || value == "+inf" || value == "-inf" \
+		|| value == "nanf" || value == "+inff" || value == "-inff")
 		return (SPECIAL);
-	if (param.length() == 1 && !isdigit(param[0]))
+	if (value.length() == 1 && !isdigit(value[0]))
 		return (CHAR);
-	if (!(param[0] == '+' || param[0] == '-' || isdigit(param[0])))
+	if (!(value[0] == '+' || value[0] == '-' || isdigit(value[0])))
 			return (INVALID);
-	for (long unsigned int i = 1; i < param.length(); i++)
+	for (long unsigned int i = 1; i < value.length(); i++)
 	{
-		if (param[i] == '+' || param[i] == '-')
+		if (value[i] == '+' || value[i] == '-')
 			;
-		else if (isspace(param[i]))
+		else if (isspace(value[i]))
 			return (INVALID);
-		else if (param[i] == '.')
+		else if (value[i] == '.')
 		{
 			i++;
-			if (!param[i] || !isdigit(param[i]))
+			if (!value[i] || !isdigit(value[i]))
 				return (INVALID);
 			i++;
-			if (i == param.length())
+			if (i == value.length())
 				return (DOUBLE);
-			if (param[i] == 'f' && i + 1 == param.length())
+			if (value[i] == 'f' && i + 1 == value.length())
 				return (FLOAT);
 			return (INVALID);
 		}
@@ -155,19 +155,19 @@ static void convertFloat(float f)
 		std::cout << "double: " << static_cast<double>(f) << std::endl;
 }
 
-void ScalarConverter::convert(std::string param)
+void ScalarConverter::convert(std::string value)
 {
-	int type = detectType(param);
-	std::stringstream ss(param);
+	int type = detectType(value);
+	std::stringstream ss(value);
 
 	switch (type)
 	{
 		case SPECIAL:
-			convertSpecial(param);
+			convertSpecial(value);
 			break;
 		case CHAR:
 		{
-			char c = param[0];
+			char c = value[0];
 			convertChar(c);
 			break;
 		}

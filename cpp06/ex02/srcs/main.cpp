@@ -5,7 +5,6 @@
 #include "cstdlib"
 #include "time.h"
 
-
 Base * generate(void)
 {
 	int nb = rand() % 3;
@@ -92,6 +91,9 @@ int main(void) {
 	std::cout << "\n[Force C]" << std::endl;
 	identify(c);
 	identify(*c);
+
+	std::cout << "\n[Force NULL]" << std::endl;
+	identify(NULL);
 
 	delete a;
 	delete b;
