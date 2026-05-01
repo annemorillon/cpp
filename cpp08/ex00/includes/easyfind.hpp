@@ -4,17 +4,12 @@
 # include "iostream"
 
 template <typename T>
-T&	easyfind(T type, int nb)
+typename T::iterator	easyfind(T& type, size_t nb)
 {
-	if (type.empty())
-		return ;
-	int i = 0;
-	while (type[i])
-	{
-		if (type[i] == nb)
-			return (type[i])
-	}
-
+	typename T::iterator it = find(type.begin(), type.end(), nb);
+	 if (it == type.end())
+		throw std::runtime_error("value not found");
+	return it;
 }
 
 #endif

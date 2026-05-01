@@ -2,6 +2,9 @@
 # define SCALARCONVERTER_HPP
 
 # include "iostream"
+# include <sstream>
+# include <cmath>
+# include <limits>
 
 enum TYPE {
 	SPECIAL,

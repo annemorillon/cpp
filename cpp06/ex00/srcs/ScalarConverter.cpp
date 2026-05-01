@@ -1,7 +1,4 @@
 #include "ScalarConverter.hpp"
-#include <sstream>
-#include <cmath>
-#include <limits>
 
 ScalarConverter::ScalarConverter(){}
 ScalarConverter::~ScalarConverter(){}
