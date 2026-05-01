@@ -40,20 +40,31 @@ void identify(Base& p)
 		dynamic_cast<A&>(p);
 		std::cout << "Object A" << std::endl;
 		return ;
-	}	catch (...) {}
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
 	try
 	{
 		dynamic_cast<B&>(p);
 		std::cout << "Object B" << std::endl;
 		return ;
-	}	catch (...) {}
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
 	try
 	{
 		dynamic_cast<C&>(p);
 		std::cout << "Object C" << std::endl;
 		return ;
-	} catch (...) {}
-	std::cout << "Unknow type" << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
 }
 
 int main(void) {

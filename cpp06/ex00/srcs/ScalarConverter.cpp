@@ -20,9 +20,7 @@ static int	detectType(std::string value)
 			return (INVALID);
 	for (long unsigned int i = 1; i < value.length(); i++)
 	{
-		if (value[i] == '+' || value[i] == '-')
-			;
-		else if (isspace(value[i]))
+		if (isspace(value[i]) && !(value[i] == '.'))
 			return (INVALID);
 		else if (value[i] == '.')
 		{
@@ -78,7 +76,7 @@ static void convertChar(char c)
 	if (c > FLOAT_MAX || c < FLOAT_MIN)
 		std::cout << "float: impossible" << std::endl;
 	else
-		std::cout << "float: " << static_cast<float>(c) << std::endl;
+		std::cout << "float: " << static_cast<float>(c) << "f" << std::endl;
 	if (c > DOUBLE_MAX || c < DOUBLE_MIN)
 		std::cout << "double: impossible" << std::endl;
 	else
@@ -95,7 +93,7 @@ static void convertInt(int i)
 	if (i > FLOAT_MAX || i < FLOAT_MIN)
 		std::cout << "float: impossible" << std::endl;
 	else
-		std::cout << "float: " << static_cast<float>(i) << std::endl;
+		std::cout << "float: " << static_cast<float>(i) << "f" << std::endl;
 	if (i > DOUBLE_MAX || i < DOUBLE_MIN)
 		std::cout << "double: impossible" << std::endl;
 	else
@@ -104,48 +102,32 @@ static void convertInt(int i)
 
 static void convertDouble(double d)
 {
-	if (std::isnan(d) || std::isinf(d))
-	{
-	    std::cout << "char: impossible" << std::endl;
-	    std::cout << "int: impossible" << std::endl;
-	}
+	if (d < 32 || d > 126)
+		std::cout << "char: Non displayable" << std::endl;
 	else
-	{
-		if (d < 32 || d > 126)
-			std::cout << "char: Non displayable" << std::endl;
-		else
-			std::cout << "char: '" << static_cast<char>(d) << "'" << std::endl;
-		if (d > INT_MAX || d < INT_MIN)
-			std::cout << "int: impossible" << std::endl;
-		else
-			std::cout << "int: " << static_cast<int>(d) << std::endl;
-	}
+		std::cout << "char: '" << static_cast<char>(d) << "'" << std::endl;
+	if (d > INT_MAX || d < INT_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(d) << std::endl;
 	if (d > FLOAT_MAX || d < FLOAT_MIN)
 		std::cout << "int: impossible" << std::endl;
 	else
-		std::cout << "float: " << static_cast<float>(d) << std::endl;
+		std::cout << "float: " << static_cast<float>(d) << "f" << std::endl;
 	std::cout << "double: " << d << std::endl;
 }
 
 static void convertFloat(float f)
 {
-	if (std::isnan(f) || std::isinf(f))
-	{
-	    std::cout << "char: impossible" << std::endl;
-	    std::cout << "int: impossible" << std::endl;
-	}
+	if (f < 32 || f > 126)
+		std::cout << "char: Non displayable" << std::endl;
 	else
-	{
-		if (f < 32 || f > 126)
-			std::cout << "char: Non displayable" << std::endl;
-		else
-			std::cout << "char: '" << static_cast<char>(f) << "'" << std::endl;
-		if (f > INT_MAX || f < INT_MIN)
-			std::cout << "int: impossible" << std::endl;
-		else
-			std::cout << "int: " << static_cast<int>(f) << std::endl;
-	}
-	std::cout << "float: " << f << std::endl;
+		std::cout << "char: '" << static_cast<char>(f) << "'" << std::endl;
+	if (f > INT_MAX || f < INT_MIN)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(f) << std::endl;
+	std::cout << "float: " << f << "f" << std::endl;
 	if (f > DOUBLE_MAX || f < DOUBLE_MIN)
 		std::cout << "double: impossible" << std::endl;
 	else
@@ -170,7 +152,7 @@ void ScalarConverter::convert(std::string value)
 		}
 		case INT:
 		{
-			double i(0);
+			int i(0);
 			ss >> i;
 			if (ss.fail())
 			{

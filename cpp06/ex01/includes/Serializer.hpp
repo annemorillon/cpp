@@ -19,10 +19,10 @@ class Serializer
 
 	private:
 
-		Serializer() = delete;
-		~Serializer() = delete;
-		Serializer(Serializer const& other) = delete;
-		Serializer operator=(Serializer const& other) = delete;
+		Serializer();
+		~Serializer();
+		Serializer(Serializer const& other);
+		Serializer operator=(Serializer const& other);
 
 };
 
