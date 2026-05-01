@@ -2,6 +2,8 @@
 # define SPAN_HPP
 
 # include "iostream"
+# include <vector>
+
 
 // Créez une classe Span capable de stocker un maximum de N entiers.
 // N est une variable de type `unsigned int` et sera le seul paramètre passé au constructeur.
@@ -23,7 +25,8 @@ class Span
 
 	private:
 
-		
+		unsigned int _size;
+		std::vector<int> vect;
 
 };
 
