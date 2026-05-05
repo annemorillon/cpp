@@ -24,8 +24,8 @@ int main()
 		int shortest = sp.shortestSpan();
 		int longest = sp.longestSpan();
 
-		std::cout << "Shortest: " << shortest << (shortest == 2 ? GREEN " [OK (Expected: 2)]" : RED " [KO]") << RESET << std::endl;
-		std::cout << "Longest:  " << longest << (longest == 14 ? GREEN " [OK (Expected: 14)]" : RED " [KO]") << RESET << std::endl;
+		std::cout << "Shortest: " << shortest << (shortest == 2 ? GREEN " [OK]" : RED " [KO (Expected: 2)]") << RESET << std::endl;
+		std::cout << "Longest:  " << longest << (longest == 14 ? GREEN " [OK]" : RED " [KO (Expected: 14)]") << RESET << std::endl;
 	} catch (const std::exception& e) {
 		std::cerr << RED "Unexpected Error: " << e.what() << RESET << std::endl;
 	}
@@ -65,8 +65,8 @@ int main()
 		int sSpan = bigSp.shortestSpan();
 		int lSpan = bigSp.longestSpan();
 
-		std::cout << "Shortest: " << sSpan << (sSpan == 10 ? GREEN " [OK]" : RED " [KO]") << RESET << std::endl;
-		std::cout << "Longest:  " << lSpan << (lSpan == 199990 ? GREEN " [OK]" : RED " [KO]") << RESET << std::endl;
+		std::cout << "Shortest: " << sSpan << (sSpan == 10 ? GREEN " [OK]" : RED " [KO (Expected: 10)]") << RESET << std::endl;
+		std::cout << "Longest:  " << lSpan << (lSpan == 199990 ? GREEN " [OK]" : RED " [KO (Expected: 199990)]") << RESET << std::endl;
 	} catch (const std::exception& e) {
 		std::cerr << RED "Error: " << e.what() << RESET << std::endl;
 	}
