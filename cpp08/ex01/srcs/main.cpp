@@ -1,4 +1,5 @@
 #include <span.hpp>
+#include <list>
 #include <cstdlib>
 #include <ctime>
 
@@ -100,6 +101,22 @@ int main()
 		std::cout << RED "[KO] No exception thrown!" RESET << std::endl;
 	} catch (const std::exception& e) {
 		std::cout << GREEN "[OK] Caught expected error: " << RESET << e.what() << std::endl;
+	}
+
+	// --- Test 7: Range with List (prouve la flexibilité du template) ---
+	std::cout << YELLOW "\n--- Test 7: Range with std::list ---" RESET << std::endl;
+	try {
+		Span sp(3);
+		std::list<int> myList;
+		myList.push_back(10);
+		myList.push_back(20);
+		myList.push_back(30);
+
+		sp.addNumbers(myList.begin(), myList.end());
+		std::cout << GREEN "[OK] 3 numbers added via list." RESET << std::endl;
+		std::cout << "Longest Span (30-10): " << sp.longestSpan() << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << RED "Error: " << e.what() << RESET << std::endl;
 	}
 
 	return 0;

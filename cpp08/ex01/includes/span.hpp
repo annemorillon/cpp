@@ -17,7 +17,17 @@ class Span
 		Span	&operator=(Span const& old);
 
 		void	addNumber(int value);
-		void	addNumbers(std::vector<int>::iterator begin, std::vector<int>::iterator end);
+		template <typename T> void	addNumbers(T begin, T end)
+		{
+			while (begin != end)
+			{
+				if (_vect.size() < _size)
+					_vect.push_back(*begin);
+				else
+					throw std::length_error("Array is full");
+				*begin++;
+			}
+		};
 		int		shortestSpan();
 		int		longestSpan();
 

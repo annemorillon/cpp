@@ -32,18 +32,6 @@ void	Span::addNumber(int value)
 		throw std::length_error("Array is full");
 }
 
-void	Span::addNumbers(std::vector<int>::iterator begin, std::vector<int>::iterator end)
-{
-	while (begin != end)
-	{
-		if (_vect.size() < _size)
-			_vect.push_back(*begin);
-		else
-			throw std::length_error("Array is full");
-		*begin++;
-	}
-}
-
 int		Span::shortestSpan() //plus courte distance // exception si pas de nombre
 {
 	if (_size < 2 || _vect.size() < 2)
