@@ -28,22 +28,22 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CPP) $(FLAGS) $(OBJS) $(INCLUDES) -o $(NAME)
-	@echo "$(GREEN) $(BOLD)  ✅ Compilation done $(RESET)"
+	@echo -e "$(GREEN) $(BOLD)  ✅ Compilation done $(RESET)"
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.cpp | $(OBJS_DIR)
 	@$(CPP) $(INCLUDES) $(FLAGS) -c $< -o $@
-	@echo "$(ORANGE) $(BOLD)  ⏳ Compilation in progress$(RESET)"
+	@echo -e "$(ORANGE) $(BOLD)  ⏳ Compilation in progress$(RESET)"
 
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
 clean:
 	@rm -rf $(OBJS_DIR)
-	@echo "$(GRAY) $(BOLD) 🗑️  Objects removed$(RESET)"
+	@echo -e "$(GRAY) $(BOLD) 🗑️  Objects removed$(RESET)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(YELLOW) $(BOLD) 🧹 Cleaning done$(RESET)"
+	@echo -e "$(YELLOW) $(BOLD) 🧹 Cleaning done$(RESET)"
 
 re: fclean all
 
