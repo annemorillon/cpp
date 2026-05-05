@@ -2,7 +2,7 @@
 # define ARRAY_HPP
 
 # include <iostream>
-# include <stdlib.h>
+# include <cstdlib>
 
 template <typename T>
 class Array
@@ -36,7 +36,8 @@ Array<T>::Array(size_t n): _size(n), _array(0){
 
 template <typename T>
 Array<T>::~Array(){
-	delete[] _array;
+	if (_array)
+		delete[] _array;
 }
 
 template <typename T>
