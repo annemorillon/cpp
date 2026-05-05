@@ -31,7 +31,10 @@ Array<T>::Array(): _size(0), _array(0){
 
 template <typename T>
 Array<T>::Array(size_t n): _size(n), _array(0){
-	_array = new T[n]();
+	if (_size == 0)
+		_array = 0;
+	else
+		_array = new T[n]();
 }
 
 template <typename T>
