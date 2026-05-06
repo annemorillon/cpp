@@ -4,7 +4,7 @@
 # include <iostream>
 
 template <typename T>
-typename T::iterator	easyfind(T& type, size_t nb)
+typename T::iterator	easyfind(T& type, int nb)
 {
 	typename T::iterator it = find(type.begin(), type.end(), nb);
 	 if (it == type.end())
