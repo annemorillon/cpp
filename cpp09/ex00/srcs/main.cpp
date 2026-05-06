@@ -65,5 +65,5 @@ int main(int ac, char **av)
 // A valid value must be either a float or a positive integer, between 0 and 1000
 
 // ex00: map
-// ex01: vector
-// ex02: list + set
+// ex01: vector || ??
+// ex02: list + set || deque + vector
