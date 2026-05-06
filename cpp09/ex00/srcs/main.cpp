@@ -24,24 +24,35 @@ static bool	openAndCopyFile(char *file, std::string& txt)
 	return (true);
 }
 
+static bool parsingFile(std::string file)
+{
+	return (true);
+}
+
 int main(int ac, char **av)
 {
-	std::string	txt;
+	std::string	file;
 
 	if (ac != 2)
 	{
 		std::cout << "Usage: ./btc [file]" << std::endl;
 		return (1);
 	}
-	if (!openAndCopyFile(av[1], txt))
+	if (!openAndCopyFile(av[1], file))
 		return (1);
-	if (!parsingFile(txt))
+	if (!parsingFile(file))
 		return (1);
 		// parsing file
 	// trouver la date la + proche dans la map
 	// recuperer la cle associe
 	// afficher la date + " => " + chiffre + " = " + result
 }
+
+// test :
+// file is empty
+
+// map = cle + value
+// map = annee + value
 
 // Parsing :
 // Your program must take a file as an argument. 
