@@ -116,19 +116,28 @@ static bool checkLine(std::string& line)
 	std::string	date, value, pipe;
 
 	if (std::count(line.begin(), line.end(), ' ') != 2) {
-		return false;
+		return (false);
 	}
 
 	if (!(ss >> date >> pipe >> value))
-		return false;
+		return (false);
 
 	if (pipe != "|" || !checkDate(date) || !checkValue(value))
-		return false;
+		return (false);
+
+	// add in map ??
 }
 
 static bool parsingFile(std::string file)
 {
-	
+	std::stringstream	ss(file);
+	std::string			line;
+
+	while (std::getline(ss, line))
+	{
+		if (!checkLine(line))
+			return (false);
+	}
 	return (true);
 }
 
