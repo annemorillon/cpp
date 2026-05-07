@@ -94,8 +94,41 @@ static bool checkDate(std::string& date)
 		return (false);
 }
 
+static bool checkValue(std::string& tmp)
+{
+	std::istringstream ss(tmp);
+	int		ivalue;
+	float	fvalue;
+
+	//identification type int or float ? or just conversion in float and it's okay ?
+	ss >> ivalue;
+	if (ivalue >= 0 && ivalue <= 1000)
+		return (true);
+	ss >> fvalue;
+	if (fvalue >= 0 && fvalue <= 1000)
+		return (true);
+	return (false);
+}
+
+static bool checkLine(std::string& line)
+{
+	std::stringstream ss(line);
+	std::string	date, value, pipe;
+
+	if (std::count(line.begin(), line.end(), ' ') != 2) {
+		return false;
+	}
+
+	if (!(ss >> date >> pipe >> value))
+		return false;
+
+	if (pipe != "|" || !checkDate(date) || !checkValue(value))
+		return false;
+}
+
 static bool parsingFile(std::string file)
 {
+	
 	return (true);
 }
 
@@ -122,13 +155,7 @@ int main(int ac, char **av)
 // file is empty
 
 // map = cle + value
-// map = annee + value
-
-// Parsing :
-// Your program must take a file as an argument. 
-// Each line in this file must use the following format: "date | value".
-	// after date check if " | " otherwise INVALID
-// A valid value must be either a float or a positive integer, between 0 and 1000
+// map = date + value
 
 // ex00: map
 // ex01: vector || ??
