@@ -8,6 +8,9 @@
 # include	<algorithm>
 # include	<map>
 
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+
 class BitcoinExchange {
 	public :
 
@@ -15,6 +18,10 @@ class BitcoinExchange {
 		~BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange& copy);
 		BitcoinExchange &operator=(const BitcoinExchange& other);
+
+		bool	setInfo();
+
+		bool	openAndCopyFile(const char *file, std::string& txt);
 
 		bool	checkLine(std::string& line);
 		void	parsingFile(std::string& file);
