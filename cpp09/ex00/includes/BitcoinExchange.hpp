@@ -26,10 +26,10 @@ class BitcoinExchange {
 		bool	checkLine(std::string& line);
 		void	parsingFile(std::string& file);
 
-		void	findExchange(std::string date, std::string value);
+		void	findExchange(std::string date, float value);
 
 	private :
-		std::map<std::string, std::string> _info;
+		std::map<std::string, float> _info;
 };
 
 #endif

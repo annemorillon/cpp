@@ -87,26 +87,11 @@ static bool checkDate(const std::string& date)
 static bool checkValue(const std::string& tmp)
 {
 	std::istringstream ss(tmp);
-	int		ivalue;
 	float	fvalue;
 
-	//identification type int or float ? or just conversion in float and it's okay ?
-	ss >> ivalue;
-	if (!ss.fail())
-	{
-		if (ivalue < 0)
-		{
-			std::cerr << RED "Error: not a positive number\n" RESET;
-			return (false);
-		}
-		else if (ivalue > 1000)
-		{
-			std::cerr << RED "Error: number > 1000\n" RESET;
-			return (false);
-		}
-		return (true);
-	}
 	ss >> fvalue;
+	if (!isAllDigit(tmp))
+		return (false);
 	if (!ss.fail())
 	{
 		if (fvalue < 0)
@@ -161,7 +146,9 @@ bool	BitcoinExchange::setInfo()
 
 	while (std::getline(ss, line))
 	{
-		std::string	date, value, comma;
+		std::string	date, comma;
+		float	value;
+		char *end;
 
 		if (line.empty() || line == "date,exchange_rate")
 			;
@@ -170,8 +157,8 @@ bool	BitcoinExchange::setInfo()
 			int len = line.length();
 			date = line.substr(0,10);
 			comma = line[10];
-			value = line.substr(11, len);
-			if (date.empty() || comma.empty() || value.empty())
+			value = strtof((line.substr(11, len)).c_str(), &end);
+			if (date.empty() || comma.empty() || (!value && value != 0))
 			{
 				std::cerr << RED "Error: bad input => " RESET << line << "\n";
 				return (false);
@@ -182,17 +169,11 @@ bool	BitcoinExchange::setInfo()
 				std::cout << date << " => " << value << "\n";
 				return (false);
 			}
-			_info.insert (std::pair<std::string,std::string>(date,value) );
+			_info.insert (std::pair<std::string,float>(date,value) );
 		}
 	}
 
-	// std::map<std::string,std::string>::iterator it = ++_info.begin();
-
-	// while (it!=_info.end())
-	// {
-	// 	std::cout << it->first << " => " << it->second << '\n';
-	// 	++it;
-	// }
+	// verification doublon
 	return (true);
 }
 
@@ -225,6 +206,8 @@ bool	BitcoinExchange::checkLine(std::string& line)
 {
 	std::stringstream ss(line);
 	std::string	date, value, pipe;
+	float		val;
+	char		*end;
 
 	if (line.empty() || line == "date | value")
 		return (true);
@@ -239,7 +222,8 @@ bool	BitcoinExchange::checkLine(std::string& line)
 	{
 		return (false);
 	}
-	findExchange(date, value);
+	val = strtof(value.c_str(), &end);
+	findExchange(date, val);
 	return (true);
 }
 
@@ -258,10 +242,19 @@ void	BitcoinExchange::parsingFile(std::string& file)
 		checkLine(line);
 }
 
-void	BitcoinExchange::findExchange(std::string date, std::string value)
+void	BitcoinExchange::findExchange(std::string date, float value)
 {
-	std::cout << date << " => " << value << "\n";
-	// trouver la date la + proche dans la map
-	// recuperer la cle associe
-	// afficher la date + " => " + chiffre + " = " + result;
+	float	result;
+	float	rate = 0.0;
+	std::map<std::string, float>::iterator it;
+
+	it = _info.lower_bound(date);
+	// if (it != _info )
+	// {
+	// 	std::cerr << RED ""
+	// }
+	rate = it->second;
+
+	result = value * rate;
+	std::cout << date << " => " << value << " = " << result << "\n";
 }
