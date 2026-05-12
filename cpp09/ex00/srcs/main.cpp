@@ -10,13 +10,16 @@ int main(int ac, char **av)
 		std::cout << "Usage: ./btc [file]" << std::endl;
 		return (1);
 	}
-	if (!btc.openAndCopyFile(av[1], file))
-		return (1);
-	if (!btc.setInfo()) //=> parsing ?
+	try
 	{
-		std::cerr << "Error: _info doesn't fill \n";
+		btc.openAndCopyFile(av[1], file);
+		btc.setInfo();
+		btc.parsingFile(file);
 	}
-	btc.parsingFile(file);
+	catch(const std::exception& e)
+	{
+		std::cerr << RED << "Error: " << RESET << e.what() << '\n';
+	}
 }
 
 // test :

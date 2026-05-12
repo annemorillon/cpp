@@ -8,8 +8,29 @@ static bool	isAllDigit(const std::string txt)
 		i++;
 	if (i < txt.length())
 		return (false);
+	return (true);
+}
+
+static bool	isFloat(const std::string txt)
+{
+	size_t i = 0;
+	bool	comma = false;
+
+	if (txt[0] == '-' || txt[0] == '+')
+		i++;
+	while (i < txt.length() && (std::isdigit(txt[i]) || txt[i] == '.'))
+	{
+		if (txt[i] == '.' && comma == true)
+			return (false);
+		if (txt[i] == '.')
+			comma = true;
+		i++;
+	}
+	if (i < txt.length())
+		return (false);
 	return (true);	
 }
+
 static bool	checkYear(const std::string& tmp)
 {
 	int	year;
@@ -59,26 +80,27 @@ static bool checkDate(const std::string& date)
 {
 	std::string tmp;
 
-	if (date.length() != 10)
+	if (date.length() != 10 || date[4] != '-' || date[7] != '-')
+	{
+		throw std::invalid_argument("bad input");
 		return (false);
-	if (date[4] != '-' || date[7] != '-')
-		return (false);
+	}
 	tmp = date.substr(0, 4);
 	if (!checkYear(tmp))
 	{
-		std::cerr << RED "Error: invalid year: " RESET << tmp << "\n";
+		throw std::invalid_argument("invalid year");
 		return (false);
 	}
 	tmp = date.substr(5, 2);
 	if (!checkMonth(tmp))
 	{
-		std::cerr << RED "Error: invalid month: " RESET << tmp << "\n";
+		throw std::invalid_argument("invalid month");
 		return (false);
 	}
 	tmp = date.substr(8, 2);
 	if (!checkDay(tmp))
 	{
-		std::cerr << RED "Error: invalid day: " RESET << tmp << "\n";
+		throw std::invalid_argument("invalid day");
 		return (false);
 	}
 	return (true);
@@ -90,22 +112,26 @@ static bool checkValue(const std::string& tmp)
 	float	fvalue;
 
 	ss >> fvalue;
-	if (!isAllDigit(tmp))
+	if (!isFloat(tmp))
+	{
+		throw std::invalid_argument("invalid number");
 		return (false);
+	}
 	if (!ss.fail())
 	{
 		if (fvalue < 0)
 		{
-			std::cerr << RED "Error: not a positive number\n" RESET;
+			throw std::out_of_range ("not a positive number");
 			return (false);
 		}
 		else if (fvalue > 1000)
 		{
-			std::cerr << RED "Error: number > 1000\n" RESET;
+			throw std::out_of_range ("too large a number");
 			return (false);
 		}
 		return (true);
 	}
+	throw std::invalid_argument("invalid number");
 	return (false);
 }
 
@@ -137,7 +163,7 @@ bool	BitcoinExchange::setInfo()
 		return (false);
 	if (file.empty())
 	{
-		std::cerr << RED "Error : file is empty" RESET << std::endl;
+		throw std::invalid_argument("file is empty");
 		return (false);
 	}
 
@@ -160,13 +186,13 @@ bool	BitcoinExchange::setInfo()
 			value = strtof((line.substr(11, len)).c_str(), &end);
 			if (date.empty() || comma.empty() || (!value && value != 0))
 			{
-				std::cerr << RED "Error: bad input => " RESET << line << "\n";
+				throw std::invalid_argument("bad input");
 				return (false);
 			}
 
 			if (comma != "," || !checkDate(date))
 			{
-				std::cout << date << " => " << value << "\n";
+				throw;
 				return (false);
 			}
 			_info.insert (std::pair<std::string,float>(date,value) );
@@ -187,7 +213,7 @@ bool	BitcoinExchange::openAndCopyFile(const char *file, std::string& txt)
 	fileIn.open(file);
 	if (!fileIn)
 	{
-		std::cerr << RED "Error: open fileIn" RESET << std::endl;
+		throw std::invalid_argument("open input file");
 		return (false);
 	}
 	while (1)
@@ -211,15 +237,16 @@ bool	BitcoinExchange::checkLine(std::string& line)
 
 	if (line.empty() || line == "date | value")
 		return (true);
-
-	if (!(ss >> date >> pipe >> value))
+	try
 	{
-		std::cerr << RED "Error: bad input => " RESET << line << "\n";
-		return (false);
+		if (!(ss >> date >> pipe >> value) || pipe != "|")
+			throw std::invalid_argument("bad input");
+		checkDate(date);
+		checkValue(value);
 	}
-
-	if (pipe != "|" || !checkDate(date) || !checkValue(value))
+	catch(const std::exception& e)
 	{
+		std::cerr << RED << "Error: " << RESET << e.what() << ": " << line << '\n';
 		return (false);
 	}
 	val = strtof(value.c_str(), &end);
@@ -231,7 +258,7 @@ void	BitcoinExchange::parsingFile(std::string& file)
 {
 	if (file.empty())
 	{
-		std::cerr << RED "Error : file is empty" RESET << std::endl;
+		throw std::invalid_argument("file is empty");
 		return ;
 	}
 
