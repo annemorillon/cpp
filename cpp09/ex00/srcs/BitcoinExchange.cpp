@@ -157,20 +157,12 @@ BitcoinExchange	&BitcoinExchange::operator=(const BitcoinExchange& other)
 
 bool	BitcoinExchange::setInfo()
 {
-	std::string file;
-	std::string address = "./data.csv";
-	if (!openAndCopyFile(address.c_str(), file))
-		return (false);
-	if (file.empty())
-	{
-		throw std::invalid_argument("file is empty");
-		return (false);
-	}
+	std::string file = "./data.csv";
+	std::string	line;
+	std::ifstream fileIn;
 
-	std::stringstream	ss(file);
-	std::string			line;
-
-	while (std::getline(ss, line))
+	fileIn.open(file.c_str());
+	while (std::getline(fileIn, line))
 	{
 		std::string	date, comma;
 		float	value;
@@ -187,42 +179,25 @@ bool	BitcoinExchange::setInfo()
 			if (date.empty() || comma.empty() || (!value && value != 0))
 			{
 				throw std::invalid_argument("bad input");
+				fileIn.close();
 				return (false);
 			}
 
 			if (comma != "," || !checkDate(date))
 			{
 				throw;
+				fileIn.close();
 				return (false);
 			}
 			_info.insert(std::pair<std::string,float>(date,value) );
 		}
 	}
-	return (true);
-}
-
-
-bool	BitcoinExchange::openAndCopyFile(const char *file, std::string& txt)
-{
-	std::string	line;
-
-	std::ifstream fileIn;
-
-	fileIn.open(file);
-	if (!fileIn)
+	fileIn.close();
+	if (_info.size() == 0)
 	{
-		throw std::invalid_argument("open input file");
+		throw std::invalid_argument("file is empty");
 		return (false);
 	}
-	while (1)
-	{
-		txt += line;
-		if (!getline(fileIn, line))
-			break;
-		else
-			txt += '\n';
-	}
-	fileIn.close();
 	return (true);
 }
 
@@ -252,19 +227,18 @@ bool	BitcoinExchange::checkLine(std::string& line)
 	return (true);
 }
 
-void	BitcoinExchange::parsingFile(std::string& file)
+void	BitcoinExchange::parsingFile(char *file)
 {
-	if (file.empty())
+	std::string	line;
+	std::ifstream fileIn;
+
+	fileIn.open(file);
+	if (!fileIn)
+		throw std::invalid_argument("open input file");
+	while (std::getline(fileIn, line))
 	{
-		throw std::invalid_argument("file is empty");
-		return ;
-	}
-
-	std::stringstream	ss(file);
-	std::string			line;
-
-	while (std::getline(ss, line))
 		checkLine(line);
+	}
 }
 
 void	BitcoinExchange::findExchange(std::string date, float value)

@@ -2,7 +2,6 @@
 
 int main(int ac, char **av)
 {
-	std::string	file;
 	BitcoinExchange btc;
 
 	if (ac != 2)
@@ -12,9 +11,8 @@ int main(int ac, char **av)
 	}
 	try
 	{
-		btc.openAndCopyFile(av[1], file);
 		btc.setInfo();
-		btc.parsingFile(file);
+		btc.parsingFile(av[1]);
 	}
 	catch(const std::exception& e)
 	{

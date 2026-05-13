@@ -22,10 +22,8 @@ class BitcoinExchange {
 
 		bool	setInfo();
 
-		bool	openAndCopyFile(const char *file, std::string& txt);
-
 		bool	checkLine(std::string& line);
-		void	parsingFile(std::string& file);
+		void	parsingFile(char *file);
 
 		void	findExchange(std::string date, float value);
 
