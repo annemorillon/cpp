@@ -16,10 +16,10 @@ class RPN {
 		RPN &operator=(const RPN& other);
 
 		void	parsing(std::string const& arg) const;
-		void	processRPN();
+		void	processRPN(std::string const& expr);
 	
 	private :
-		std::stack<int> _stack;
+		std::stack<double> _stack;
 };
 
 #endif

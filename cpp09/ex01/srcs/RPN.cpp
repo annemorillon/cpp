@@ -13,9 +13,7 @@ RPN::RPN(const RPN& copy)
 RPN &RPN::operator=(const RPN& other)
 {
 	if (this != &other)
-	{
 		_stack = other._stack;
-	}
 	return (*this);
 }
 
@@ -34,7 +32,7 @@ static bool	isOperator(char c)
 
 void	RPN::parsing(std::string const& arg) const
 {
-	if (!(isdigit(arg[0]) && (isdigit(arg[arg.length() - 1])) || isOperator(arg[arg.length() - 1])))
+	if (!(isdigit(arg[0]) && (isdigit(arg[arg.length() - 1]) || isOperator(arg[arg.length() - 1]))))
 		throw std::invalid_argument("bad input");
 
 	for (size_t i = 0; i < arg.length(); i++)
@@ -45,39 +43,54 @@ void	RPN::parsing(std::string const& arg) const
 			if (arg[i] == ' ' && i != arg.length())
 				;
 			else if (i != arg.length())
-			{
-				std::cout << "in if: " << arg[i] << "\n";
 				throw std::invalid_argument("bad input");
-			}
 		}
 		else
-		{
-			std::cout << arg[i] << "\n";
 			throw std::invalid_argument("bad input");
-		}
 	}
 }
 
-// static double	operation()
-// {
-// 	return (0);
-// }
+static double	operation(double a, double b, char operators)
+{
+	double result = 0;
 
-// void	RPN::processRPN()
-// {
-// 	int	len = expr.lengh();
+	if (a == 0 && operators == '/')
+		throw std::invalid_argument("division by zero");
+	else if (operators == '/')
+		result = b / a;
+	else if (operators == '*')
+		result = b * a;
+	else if (operators == '+')
+		result = b + a;
+	else if (operators == '-')
+		result = b - a;
+	return (result);
+}
 
-// 	for (int i = 0; i != len - 1; i++)
-// 	{
-// 		if (!isOperator(expr[i].c_str()))
-// 			_stack.push(expr[i]);
-// 		else
-// 		{
-// 			a = _stack.pop();
-// 			b = _stack.pop();
-// 			c = operation(a, b);
-// 			_stack.push(c);
-// 		}
-// 	}
-// 	return (_stack.pop());
-// }
+void	RPN::processRPN(std::string const& expr)
+{
+	double a, b, c;
+	int	len = expr.length();
+
+	for (int i = 0; i != len; i++)
+	{
+		if (isdigit(expr[i]))
+			_stack.push(expr[i] - '0');
+		else if (expr[i] == ' ')
+			;
+		else
+		{
+			a = _stack.top();
+			_stack.pop();
+			b = _stack.top();
+			_stack.pop();
+			c = operation(a, b, expr[i]);
+			_stack.push(c);
+		}
+	}
+	if (_stack.size() != 1)
+		throw std::invalid_argument("bad input");
+	std::cout << _stack.top() << "\n";
+	_stack.pop();
+	// return (_stack.pop());
+}

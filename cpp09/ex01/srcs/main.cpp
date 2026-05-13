@@ -12,7 +12,7 @@ int main(int ac, char **av)
 	try
 	{
 		rpn.parsing(av[1]);
-		// rpn.processRPN();
+		rpn.processRPN(av[1]);
 	}
 	catch(const std::exception& e)
 	{
