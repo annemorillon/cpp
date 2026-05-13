@@ -12,7 +12,8 @@ int main(int ac, char **av)
 	try
 	{
 		pm.parsing(av);
-		pm.mergeSort(pm.getAfterV());
+		std::vector<int> tmp = pm.mergeSort(pm.getAfterV());
+		pm.setAfterV(tmp);
 		pm.printEnd();
 	}
 	catch(const std::exception& e)

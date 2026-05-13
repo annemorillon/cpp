@@ -22,6 +22,11 @@ std::vector<int>	PmergeMe::getAfterV() const
 	return (_afterV);
 }
 
+void				PmergeMe::setAfterV(std::vector<int> const value)
+{
+	_afterV = value;
+}
+
 void	PmergeMe::parsing(char **av)
 {
 	int i = 1;
@@ -36,7 +41,7 @@ void	PmergeMe::parsing(char **av)
 			avs = av[i];
 			if (!isdigit(av[i][j]) && !(av[i][j] == ' '))
 				throw std::invalid_argument("bad input");
-			if (av[i][j] == ' ' || (isdigit(av[i][j]) && !av[i][j+1]))
+			if (av[i][j] == ' ' || (space != 0 && isdigit(av[i][j]) && !av[i][j+1]))
 			{
 				std::string tmp = avs.substr(space, j);
 				if (atoi(tmp.c_str()) > 0) // gerer si c'est un double
@@ -77,13 +82,13 @@ void	PmergeMe::merge(std::vector<int> arr, std::vector<int> left, std::vector<in
 		arr[arrIndex++] = right[rightIndex++];
 }
 
-void	PmergeMe::mergeSort(std::vector<int> arr)
+std::vector<int>	PmergeMe::mergeSort(std::vector<int> arr)
 {
 	std::vector<int> left;
 	std::vector<int> right;
 
 	if (arr.size() <= 1)
-		return ;
+		return (arr);
 
 	int middle = arr.size() / 2;
 
@@ -97,6 +102,8 @@ void	PmergeMe::mergeSort(std::vector<int> arr)
 	mergeSort(right);
 
 	merge(arr, left, right);
+	
+	return (arr);
 }
 
 void	PmergeMe::printEnd()

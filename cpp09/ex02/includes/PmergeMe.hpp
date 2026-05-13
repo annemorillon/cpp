@@ -18,9 +18,10 @@ class PmergeMe {
 		PmergeMe &operator=(const PmergeMe& other);
 
 		std::vector<int>	getAfterV() const;
+		void				setAfterV(std::vector<int> const value);
 
 		void	parsing(char **av);
-		void	mergeSort(std::vector<int> arr);
+		std::vector<int>	mergeSort(std::vector<int> arr);
 		void	merge(std::vector<int> arr, std::vector<int> left, std::vector<int> right);
 		void	printEnd();
 	
