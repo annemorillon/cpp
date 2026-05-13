@@ -4,7 +4,7 @@ static bool	isAllDigit(const std::string txt)
 {
 	size_t i = 0;
 
-	while (i < txt.length() && std::isdigit(txt[i]))
+	while (i < txt.length() && isdigit(txt[i]))
 		i++;
 	if (i < txt.length())
 		return (false);
@@ -18,7 +18,7 @@ static bool	isFloat(const std::string txt)
 
 	if (txt[0] == '-' || txt[0] == '+')
 		i++;
-	while (i < txt.length() && (std::isdigit(txt[i]) || txt[i] == '.'))
+	while (i < txt.length() && (isdigit(txt[i]) || txt[i] == '.'))
 	{
 		if (txt[i] == '.' && comma == true)
 			return (false);

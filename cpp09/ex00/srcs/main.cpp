@@ -6,7 +6,7 @@ int main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		std::cout << "Usage: ./btc [file]" << std::endl;
+		std::cerr << "Usage: ./btc [file]" << std::endl;
 		return (1);
 	}
 	try
@@ -19,13 +19,3 @@ int main(int ac, char **av)
 		std::cerr << RED << "Error: " << RESET << e.what() << '\n';
 	}
 }
-
-// test :
-// file is empty
-
-// map = cle + value
-// map = date + value=6
-
-// ex00: map
-// ex01: stack
-// ex02: deque + vector

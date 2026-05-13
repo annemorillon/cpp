@@ -9,8 +9,8 @@
 # include	<map>
 # include	<filesystem>
 
-#define RESET   "\033[0m"
-#define RED     "\033[31m"
+# define RESET   "\033[0m"
+# define RED     "\033[31m"
 
 class BitcoinExchange {
 	public :
