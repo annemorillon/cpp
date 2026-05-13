@@ -61,7 +61,18 @@ static bool	checkMonth(const std::string& tmp)
 	return (false);
 }
 
-static bool	checkDay(const std::string& tmp)
+static bool isLeapYear(int year)
+{
+	if (year % 400 == 0)
+		return (true);
+	if (year % 100 == 0)
+		return (false);
+	if (year % 4 == 0)
+		return (true);
+	return (false);
+}
+
+static bool	checkDay(const std::string& tmp, const std::string& month, const std::string& year)
 {
 	int	day;
 	std::istringstream ss(tmp);
@@ -71,34 +82,52 @@ static bool	checkDay(const std::string& tmp)
 		throw ;
 	if (!isAllDigit(tmp))
 		return (false);
-	if (day >= 01 && day <= 31) //  ajouter le month pour 30 ou 31
-		return (true);
+	if (isLeapYear(atoi(year.c_str())))
+	{
+		if (month == "02")
+			if (day >= 01 && day <= 29)
+				return (true);
+	}
+	else
+	{
+		if (month == "02")
+			if (day >= 01 && day <= 28)
+					return (true);
+	}
+	if (month == "04" || month == "06" || month == "09" || month == "11")
+		if (day >= 01 && day <= 30)
+			return (true);
+	else
+		if (day >= 01 && day <= 31)
+			return (true);
 	return (false);
 }
 
 static bool checkDate(const std::string& date)
 {
-	std::string tmp;
+	std::string year;
+	std::string month;
+	std::string day;
 
 	if (date.length() != 10 || date[4] != '-' || date[7] != '-')
 	{
 		throw std::invalid_argument("bad input");
 		return (false);
 	}
-	tmp = date.substr(0, 4);
-	if (!checkYear(tmp))
+	year = date.substr(0, 4);
+	if (!checkYear(year))
 	{
 		throw std::invalid_argument("invalid year");
 		return (false);
 	}
-	tmp = date.substr(5, 2);
-	if (!checkMonth(tmp))
+	month = date.substr(5, 2);
+	if (!checkMonth(month))
 	{
 		throw std::invalid_argument("invalid month");
 		return (false);
 	}
-	tmp = date.substr(8, 2);
-	if (!checkDay(tmp))
+	day = date.substr(8, 2);
+	if (!checkDay(month, month, year))
 	{
 		throw std::invalid_argument("invalid day");
 		return (false);
