@@ -195,11 +195,9 @@ bool	BitcoinExchange::setInfo()
 				throw;
 				return (false);
 			}
-			_info.insert (std::pair<std::string,float>(date,value) );
+			_info.insert(std::pair<std::string,float>(date,value) );
 		}
 	}
-
-	// verification doublon
 	return (true);
 }
 
@@ -276,12 +274,15 @@ void	BitcoinExchange::findExchange(std::string date, float value)
 	std::map<std::string, float>::iterator it;
 
 	it = _info.lower_bound(date);
-	// if (it != _info )
-	// {
-	// 	std::cerr << RED ""
-	// }
-	rate = it->second;
-
+	if (it == _info.begin() && date != it->first)
+		std::cout << RED << "Error:" << RESET << " bad input: " << date << "\n";
+	if (it == _info.end())
+	{
+		--it;
+		rate = it->second;
+	}
+	else
+		rate = it->second;
 	result = value * rate;
 	std::cout << date << " => " << value << " = " << result << "\n";
 }
