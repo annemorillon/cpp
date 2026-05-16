@@ -45,7 +45,10 @@ void	PmergeMe::parsing(char **av)
 			{
 				std::string tmp = avs.substr(space, j);
 				if (atoi(tmp.c_str()) > 0) // gerer si c'est un double
+				{
 					_before.push_back(atoi(tmp.c_str()));
+					_afterD.push_back(atoi(tmp.c_str()));
+				}
 				space = j;
 			}
 			j++;
@@ -53,15 +56,17 @@ void	PmergeMe::parsing(char **av)
 		if (space == 0)
 		{
 			if (atoi(av[i]) > 0) // gerer si c'est un double
+			{
 				_before.push_back(atoi(av[i]));
+				_afterD.push_back(atoi(av[i]));
+			}
 		}
 		i++;
 	}
 	_afterV = _before;
-	// _afterD = _before;
 }
 
-void	PmergeMe::merge(std::vector<int> arr, std::vector<int> left, std::vector<int> right)
+std::vector<int>	PmergeMe::merge(std::vector<int> arr, std::vector<int> left, std::vector<int> right)
 {
 	long unsigned int leftIndex = 0;
 	long unsigned int rightIndex = 0;
@@ -69,10 +74,10 @@ void	PmergeMe::merge(std::vector<int> arr, std::vector<int> left, std::vector<in
 
 	while (leftIndex < left.size() && rightIndex < right.size())
 	{
-			if (left[leftIndex] <= right[rightIndex])
-				arr[arrIndex++] = left[leftIndex++];
-			else
-				arr[arrIndex++] = right[rightIndex++];
+		if (left[leftIndex] <= right[rightIndex])
+			arr[arrIndex++] = left[leftIndex++];
+		else
+			arr[arrIndex++] = right[rightIndex++];
 	}
 
 	while (leftIndex < left.size())
@@ -80,13 +85,15 @@ void	PmergeMe::merge(std::vector<int> arr, std::vector<int> left, std::vector<in
 
 	while (rightIndex < right.size())
 		arr[arrIndex++] = right[rightIndex++];
+
+	return (arr);
 }
 
 std::vector<int>	PmergeMe::mergeSort(std::vector<int> arr)
 {
 	std::vector<int> left;
 	std::vector<int> right;
-
+	
 	if (arr.size() <= 1)
 		return (arr);
 
@@ -95,23 +102,22 @@ std::vector<int>	PmergeMe::mergeSort(std::vector<int> arr)
 	for (int i = 0; i < middle; i++)
 		left.push_back(arr[i]);
 
-	for (long unsigned int i = middle; i < arr.size(); i++)
+	for (int i = middle; (long unsigned int) i < arr.size(); i++)
 		right.push_back(arr[i]);
 
-	mergeSort(left);
-	mergeSort(right);
+	left = mergeSort(left);
+	right = mergeSort(right);
+	arr = merge(arr, left, right);
 
-	merge(arr, left, right);
-	
 	return (arr);
 }
 
-void	PmergeMe::printEnd()
+void	PmergeMe::printEnd(double timeVector, double timeDeque)
 {
 	std::cout << "Before: ";
 	print(_before);
 	std::cout << "After: ";
 	print(_afterV);
-	std::cout << "Time to process a range of 5 elements with std::[deque] : " << "0.00031" << "us" << "\n";
-	std::cout << "Time to process a range of 5 elements with std::[vector] : " << "0.00014" << "us" << "\n";
+	std::cout << "Time to process a range of " << _afterV.size() << " elements with std::[deque] : " << timeVector << " us" << "\n";
+	std::cout << "Time to process a range of " << _afterD.size() << " elements with std::[vector] : " << timeDeque << " us" << "\n";
 }

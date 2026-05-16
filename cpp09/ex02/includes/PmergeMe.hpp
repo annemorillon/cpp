@@ -5,9 +5,10 @@
 # include	<algorithm>
 # include	<deque>
 # include	<vector>
+# include	<sys/time.h>
 
-# define RESET   "\033[0m"
-# define RED     "\033[31m"
+# define RESET	"\033[0m"
+# define RED	"\033[31m"
 
 class PmergeMe {
 	public :
@@ -20,16 +21,15 @@ class PmergeMe {
 		std::vector<int>	getAfterV() const;
 		void				setAfterV(std::vector<int> const value);
 
-		void	parsing(char **av);
+		void				parsing(char **av);
 		std::vector<int>	mergeSort(std::vector<int> arr);
-		void	merge(std::vector<int> arr, std::vector<int> left, std::vector<int> right);
-		void	printEnd();
+		std::vector<int>	merge(std::vector<int> arr, std::vector<int> left, std::vector<int> right);
+		void				printEnd(double timeVector, double timeDeque);
 	
 	private :
 		std::vector<int>	_before;
 		std::vector<int>	_afterV;
 		std::deque<int>		_afterD;
-
 };
 
 template <typename T>
