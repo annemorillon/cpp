@@ -11,16 +11,23 @@ int main(int ac, char **av)
 	}
 	try
 	{
-		struct timeval startVector, endVector;
+		struct timeval startVector, endVector, startDeque, endDeque;
 		pm.parsing(av);
 		gettimeofday(&startVector, NULL);
-		std::vector<int> tmp = pm.mergeSort(pm.getAfterV());
+		std::vector<int> tmp = pm.mergeSort(pm.getVector());
 		gettimeofday(&endVector, NULL);
 		pm.setAfterV(tmp);
 		long secondesVector = endVector.tv_sec - startVector.tv_sec;
 		long microsecondesVector = endVector.tv_usec - startVector.tv_usec;
 		long timeVector = (secondesVector * 1000000) + microsecondesVector;
-		pm.printEnd(timeVector, 0);
+
+		gettimeofday(&startDeque, NULL);
+		pm.mergeSort(pm.getDeque());
+		gettimeofday(&endDeque, NULL);
+		long secondesDeque = endDeque.tv_sec - startDeque.tv_sec;
+		long microsecondesDeque = endDeque.tv_usec - startDeque.tv_usec;
+		long timeDeque = (secondesDeque * 1000000) + microsecondesDeque;
+		pm.printEnd(timeVector, timeDeque);
 	}
 	catch(const std::exception& e)
 	{
