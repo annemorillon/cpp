@@ -12,27 +12,14 @@ PmergeMe &PmergeMe::operator=(const PmergeMe& other)
 {
 	if (this != &other)
 	{
-
+		_before = other._before;
+		_vector = other._vector;
+		_deque = other._deque;
 	}
 	return (*this);
 }
 
-std::vector<int>	PmergeMe::getVector() const
-{
-	return (_vector);
-}
-
-std::deque<int>	PmergeMe::getDeque() const
-{
-	return (_deque);
-}
-
-void				PmergeMe::setAfterV(std::vector<int> const value)
-{
-	_vector = value;
-}
-
-void	PmergeMe::parsing(char **av)
+void	PmergeMe::_parsing(char **av)
 {
 	int i = 1;
 	std::string avs;
@@ -71,7 +58,12 @@ void	PmergeMe::parsing(char **av)
 	_vector = _before;
 }
 
-std::vector<int>	PmergeMe::merge(std::vector<int> arr, std::vector<int> left, std::vector<int> right)
+long PmergeMe::_calculateTime(struct timeval start, struct timeval end) const
+{
+	return ((end.tv_sec - start.tv_sec) * 1000000) + (end.tv_usec - start.tv_usec);
+}
+
+void	PmergeMe::_merge(std::vector<int>& arr, std::vector<int>& left, std::vector<int>& right)
 {
 	long unsigned int leftIndex = 0;
 	long unsigned int rightIndex = 0;
@@ -90,17 +82,15 @@ std::vector<int>	PmergeMe::merge(std::vector<int> arr, std::vector<int> left, st
 
 	while (rightIndex < right.size())
 		arr[arrIndex++] = right[rightIndex++];
-
-	return (arr);
 }
 
-std::vector<int>	PmergeMe::mergeSort(std::vector<int> arr)
+void	PmergeMe::_mergeSort(std::vector<int>& arr)
 {
 	std::vector<int> left;
 	std::vector<int> right;
 	
 	if (arr.size() <= 1)
-		return (arr);
+		return ;
 
 	int middle = arr.size() / 2;
 
@@ -110,14 +100,12 @@ std::vector<int>	PmergeMe::mergeSort(std::vector<int> arr)
 	for (int i = middle; (long unsigned int) i < arr.size(); i++)
 		right.push_back(arr[i]);
 
-	left = mergeSort(left);
-	right = mergeSort(right);
-	arr = merge(arr, left, right);
-
-	return (arr);
+	_mergeSort(left);
+	_mergeSort(right);
+	_merge(arr, left, right);
 }
 
-std::deque<int>	PmergeMe::merge(std::deque<int> arr, std::deque<int> left, std::deque<int> right)
+void	PmergeMe::_merge(std::deque<int>& arr, std::deque<int>& left, std::deque<int>& right)
 {
 	long unsigned int leftIndex = 0;
 	long unsigned int rightIndex = 0;
@@ -136,17 +124,15 @@ std::deque<int>	PmergeMe::merge(std::deque<int> arr, std::deque<int> left, std::
 
 	while (rightIndex < right.size())
 		arr[arrIndex++] = right[rightIndex++];
-
-	return (arr);
 }
 
-std::deque<int>	PmergeMe::mergeSort(std::deque<int> arr)
+void	PmergeMe::_mergeSort(std::deque<int>& arr)
 {
 	std::deque<int> left;
 	std::deque<int> right;
 	
 	if (arr.size() <= 1)
-		return (arr);
+		return ;
 
 	int middle = arr.size() / 2;
 
@@ -156,19 +142,39 @@ std::deque<int>	PmergeMe::mergeSort(std::deque<int> arr)
 	for (int i = middle; (long unsigned int) i < arr.size(); i++)
 		right.push_back(arr[i]);
 
-	left = mergeSort(left);
-	right = mergeSort(right);
-	arr = merge(arr, left, right);
+	_mergeSort(left);
+	_mergeSort(right);
+	_merge(arr, left, right);
 
-	return (arr);
 }
 
-void	PmergeMe::printEnd(long timeVector, long timeDeque)
+void	PmergeMe::_printEnd(struct timeval startVector, struct timeval endVector, struct timeval startDeque, struct timeval endDeque)
 {
 	std::cout << "Before: ";
 	print(_before);
 	std::cout << "After: ";
 	print(_vector);
-	std::cout << "Time to process a range of " << _deque.size() << " elements with std::[deque] : " << timeDeque << " us" << "\n";
+
+	long timeVector = _calculateTime(startVector, endVector);
+	long timeDeque = _calculateTime(startDeque, endDeque);
+
 	std::cout << "Time to process a range of " << _vector.size() << " elements with std::[vector] : " << timeVector << " us" << "\n";
+	std::cout << "Time to process a range of " << _deque.size() << " elements with std::[deque] : " << timeDeque << " us" << "\n";
+}
+
+void	PmergeMe::process(char **av)
+{
+	struct timeval startVector, endVector, startDeque, endDeque;
+
+	_parsing(av);
+
+	gettimeofday(&startVector, NULL);
+	_mergeSort(_vector);
+	gettimeofday(&endVector, NULL);
+
+	gettimeofday(&startDeque, NULL);
+	_mergeSort(_deque);
+	gettimeofday(&endDeque, NULL);
+
+	_printEnd(startVector, endVector, startDeque, endDeque);
 }

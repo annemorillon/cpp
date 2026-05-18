@@ -17,20 +17,22 @@ class PmergeMe {
 		~PmergeMe();
 		PmergeMe(const PmergeMe& copy);
 		PmergeMe &operator=(const PmergeMe& other);
-
-		std::vector<int>	getVector() const;
-		std::deque<int>		getDeque() const;
-
-		void				setAfterV(std::vector<int> const value);
-
-		void				parsing(char **av);
-		std::vector<int>	mergeSort(std::vector<int> arr);
-		std::deque<int>		mergeSort(std::deque<int> arr);
-		std::vector<int>	merge(std::vector<int> arr, std::vector<int> left, std::vector<int> right);
-		std::deque<int>		merge(std::deque<int> arr, std::deque<int> left, std::deque<int> right);
-		void				printEnd(long timeVector, long timeDeque);
 	
+		void				process(char **av);
+
 	private :
+
+		void				_parsing(char **av);
+
+		void				_mergeSort(std::vector<int>& arr);
+		void				_mergeSort(std::deque<int>& arr);
+
+		void				_merge(std::vector<int>& arr, std::vector<int>& left, std::vector<int>& right);
+		void				_merge(std::deque<int>& arr, std::deque<int>& left, std::deque<int>& right);
+
+		long				_calculateTime(struct timeval start, struct timeval end) const;
+		void				_printEnd(struct timeval startVector, struct timeval endVector, struct timeval startDeque, struct timeval endDeque);
+
 		std::vector<int>	_before;
 		std::vector<int>	_vector;
 		std::deque<int>		_deque;
