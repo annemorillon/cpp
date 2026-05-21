@@ -76,29 +76,40 @@ long PmergeMe::_calculateTime(struct timeval start, struct timeval end) const
 
 static std::vector<int>	sequenceJacobsthal(int n)
 {
+	std::vector<int> jacob;
 	std::vector<int> result;
-	result.push_back(0);
+	jacob.push_back(0);
 	if (n == 0)
 		return (result);
-	result.push_back(1);
+	jacob.push_back(1);
 	
-	while (result.back() < n)
+	while (jacob.back() < n)
 	{
-		int next = result[result.size()-1] + 2 * result[result.size()-2];
+		int next = jacob[jacob.size()-1] + 2 * jacob[jacob.size()-2];
 		if (next >= n) break;
-		result.push_back(next);
+		jacob.push_back(next);
 	}
-	std::vector<int>::iterator it = result.begin();
-	it++;
-	result.erase(it);
-	for(int i = 0; i < n; i++)
+
+	std::vector<int>::iterator it = ++jacob.begin();
+	while (it != jacob.end() - 1)
 	{
-		std::vector<int>::iterator it = find(result.begin(), result.end(), i);
-		if (it != result.end())
-			;
-		else
+		int	prev = *it;
+		++it;
+		int	next = *it;
+		result.push_back(next);
+		for (int i = prev + 1; i < next; i++)
+		{
 			result.push_back(i);
+		}
 	}
+	// for(int i = result.back(); i < n; i++)
+	// {
+	// 	std::vector<int>::iterator it = find(result.begin(), result.end(), i);
+	// 	if (it != result.end())
+	// 		;
+	// 	else
+	// 		result.push_back(i);
+	// }
 	return (result);
 }
 
@@ -119,10 +130,9 @@ void	PmergeMe::_sort(std::vector<int>& arr)
 	while (i + 1 < arr.size()) // pourquoi i + 1
 	{
 		int a = arr[i];
-		i++;
 		int b = -1;
-		if (arr[i])
-			b = arr[i];
+		if (arr[i + 1])
+			b = arr[i + 1];
 		if (a && b != -1)
 		{
 			main.push_back(std::max(a, b));
@@ -136,10 +146,19 @@ void	PmergeMe::_sort(std::vector<int>& arr)
 
 	std::vector<int> jacobsthal = sequenceJacobsthal((int) pending.size());
 
+	// std::cout << "jacobsthal: ";
+	// print(jacobsthal);
+	std::cout << "main: ";
+	print(main);
+	std::cout << "pending: ";
+	print(pending);
+	std::cout << "\n";
+
 	int value;
 	std::vector<int>::iterator it;
 	int insert_pos;
-	for (int i = 0; i < (int)jacobsthal.size(); i++)
+	main.insert(main.begin(), pending[0]);
+	for (int i = 0; i < (int)jacobsthal.size() && i < (int)pending.size(); i++)
 	{
 		int idx = jacobsthal[i];
 		if (idx >= (int)pending.size())
@@ -161,6 +180,9 @@ void	PmergeMe::_sort(std::vector<int>& arr)
 		main.insert(it, non_participating[i]);
 	}
 
+	std::cout << "before: ";
+	print(main);
+	std::cout << "\n";
 	arr = main;
 }
 
