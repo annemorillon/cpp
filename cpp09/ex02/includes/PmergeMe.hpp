@@ -28,6 +28,8 @@ class PmergeMe {
 		void				_sort(std::vector<int>& arr);
 		void				_mergeSort(std::deque<int>& arr);
 
+		std::vector<int>::iterator	findIterator(int n);
+
 		long				_calculateTime(struct timeval start, struct timeval end) const;
 		void				_printEnd(struct timeval startVector, struct timeval endVector, struct timeval startDeque, struct timeval endDeque);
 
@@ -48,8 +50,8 @@ void print(T& tab)
 		if (it != tab.end())
 			std::cout << " ";
 	}
-	if (it == tab.begin())
-		throw std::runtime_error("value not found");
+	// if (it == tab.begin())
+	// 	throw std::runtime_error("value not found");
 	std::cout << "\n";
 }
 	

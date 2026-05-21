@@ -77,17 +77,16 @@ long PmergeMe::_calculateTime(struct timeval start, struct timeval end) const
 static std::vector<int>	sequenceJacobsthal(int n)
 {
 	std::vector<int> result;
-	int tmp = 0;
-
 	result.push_back(0);
 	if (n == 0)
 		return (result);
 	result.push_back(1);
-	for (int i = 2; tmp <= n; i++)
+	
+	while (result.back() < n)
 	{
-		tmp = result[i - 1] + 2 * result[i - 2];
-		if (tmp < n)
-			result.push_back(tmp);
+		int next = result[result.size()-1] + 2 * result[result.size()-2];
+		if (next >= n) break;
+		result.push_back(next);
 	}
 	std::vector<int>::iterator it = result.begin();
 	it++;
@@ -106,6 +105,7 @@ static std::vector<int>	sequenceJacobsthal(int n)
 void	PmergeMe::_sort(std::vector<int>& arr)
 {
 	std::vector<int> main;
+	std::vector<int> idx_main;
 	std::vector<int> pending;
 	std::vector<int> non_participating;
 	
@@ -116,7 +116,7 @@ void	PmergeMe::_sort(std::vector<int>& arr)
 		non_participating.push_back(arr.back());
 
 	long unsigned int i = 0;
-	while (i + 1 < arr.size())
+	while (i + 1 < arr.size()) // pourquoi i + 1
 	{
 		int a = arr[i];
 		i++;
@@ -126,48 +126,34 @@ void	PmergeMe::_sort(std::vector<int>& arr)
 		if (a && b != -1)
 		{
 			main.push_back(std::max(a, b));
+			idx_main.push_back(i);
 			pending.push_back(std::min(a, b));
 		}
 		i++;
 	}
 
 	_sort(main);
-	
-	std::cout << "main: ";
-	print(main);
-	std::cout << "pending: ";
-	print(pending);
-	std::cout << "\n";
 
-	std::vector<int> jacobsthal = sequenceJacobsthal((int) arr.size());
+	std::vector<int> jacobsthal = sequenceJacobsthal((int) pending.size());
 
-	std::cout << "jacobsthal: ";
-	print(jacobsthal);
-
-	for (long unsigned int i = 0; i < jacobsthal.size() && (long unsigned int)jacobsthal[i] < pending.size(); i++)
+	int value;
+	std::vector<int>::iterator it;
+	int insert_pos;
+	for (int i = 0; i < (int)jacobsthal.size(); i++)
 	{
-		int value = pending[jacobsthal[i]];
-		std::vector<int>::iterator it = lower_bound(main.begin(), main.end(), value);
+		int idx = jacobsthal[i];
+		if (idx >= (int)pending.size())
+			break;
+		value = pending[idx];
+		it = lower_bound(main.begin(), main.begin() + idx_main[i], value);
 		main.insert(it, value);
-		// int j = jacobsthal[i];
-		// while (i >= 1 && j > 1 && j != jacobsthal[i - 1])
-		// {
-		// 	j--;
-		// 	int value = pending[j];
-		// 	std::vector<int>::iterator it = find(pending.begin(), pending.end(), value);
-		// 	if (it == pending.end())
-		// 		;
-		// 	else
-		// 	{
-		// 		std::vector<int>::iterator it = lower_bound(main.begin(), main.end(), value);
-		// 		main.insert(it, value);
-		// 	}
-		// }
+		insert_pos = std::distance(main.begin(), it);
+		for (int i = 0; i < (int)pending.size(); i++)
+		{
+			if (idx_main[i] >= insert_pos)
+				idx_main[i]++;
+		}
 	}
-
-
-	// std::cout << "non participating: ";
-	// print(non_participating);
 
 	for (long unsigned int i = 0; i < non_participating.size(); i++)
 	{
@@ -175,33 +161,8 @@ void	PmergeMe::_sort(std::vector<int>& arr)
 		main.insert(it, non_participating[i]);
 	}
 
-	std::cout << "after: ";
-	print(main);
-	std::cout << "\n";
 	arr = main;
 }
-
-// void	PmergeMe::_mergeSort(std::deque<int>& arr)
-// {
-// 	std::deque<int> left;
-// 	std::deque<int> right;
-	
-// 	if (arr.size() <= 1)
-// 		return ;
-
-// 	int middle = arr.size() / 2;
-
-// 	for (int i = 0; i < middle; i++)
-// 		left.push_back(arr[i]);
-
-// 	for (int i = middle; (long unsigned int) i < arr.size(); i++)
-// 		right.push_back(arr[i]);
-
-// 	_mergeSort(left);
-// 	_mergeSort(right);
-// 	_merge(arr, left, right);
-
-// }
 
 void	PmergeMe::_printEnd(struct timeval startVector, struct timeval endVector, struct timeval startDeque, struct timeval endDeque)
 {
