@@ -7,10 +7,12 @@
 # include	<vector>
 # include	<sys/time.h>
 # include	<cstring>
+# include	<typeinfo>
 
 # define RESET	"\033[0m"
 # define RED	"\033[31m"
 
+template <typename T>
 class PmergeMe {
 	public :
 
@@ -25,17 +27,22 @@ class PmergeMe {
 
 		void				_parsing(char **av);
 
-		void				_sort(std::vector<int>& arr);
-		void				_mergeSort(std::deque<int>& arr);
+		void				_sort(T& arr);
 
-		std::vector<int>::iterator	findIterator(int n);
+		void				_createPairs(T& arr, T& main, T& idx_main, T& pending, int& non_participating);
+		void				_updatePosWinner(typename T::iterator it, T& main, T& idx_main);
+		void				_insertPending(T& main, T& idx_main, T& pending);
+
+		void				_sortWithIndices(T& main, T& idx_main);
+
+		T					_sequenceInsertion(int n);
+		T					_sequenceJacobsthal(int n);
 
 		long				_calculateTime(struct timeval start, struct timeval end) const;
-		void				_printEnd(struct timeval startVector, struct timeval endVector, struct timeval startDeque, struct timeval endDeque);
+		void				_printEnd(struct timeval start, struct timeval end);
 
-		std::vector<int>	_before;
-		std::vector<int>	_vector;
-		std::deque<int>		_deque;
+		T	_before;
+		T	_after;
 };
 
 template <typename T>
@@ -54,5 +61,7 @@ void print(T& tab)
 	// 	throw std::runtime_error("value not found");
 	std::cout << "\n";
 }
+
+#include "../srcs/PmergeMe.cpp"
 	
 #endif

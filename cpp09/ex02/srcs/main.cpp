@@ -2,8 +2,6 @@
 
 int main(int ac, char **av)
 {
-	PmergeMe pm;
-
 	if (ac < 2)
 	{
 		std::cerr << "Usage: ./PmergeMe [positive integer]" << std::endl;
@@ -11,7 +9,11 @@ int main(int ac, char **av)
 	}
 	try
 	{
-		pm.process(av);
+		PmergeMe<std::vector<int> > pmVector;
+		pmVector.process(av);
+
+		PmergeMe<std::deque<int> > pmDeque;
+		pmDeque.process(av);
 	}
 	catch(const std::exception& e)
 	{
