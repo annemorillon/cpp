@@ -191,6 +191,8 @@ bool	BitcoinExchange::setInfo()
 	std::ifstream fileIn;
 
 	fileIn.open(file.c_str());
+	if (!fileIn)
+		throw std::invalid_argument("open data.csv");
 	while (std::getline(fileIn, line))
 	{
 		std::string	date, comma;
@@ -218,7 +220,7 @@ bool	BitcoinExchange::setInfo()
 				fileIn.close();
 				return (false);
 			}
-			_info.insert(std::pair<std::string,float>(date,value) );
+			_info.insert(std::pair<std::string,float>(date,value));
 		}
 	}
 	fileIn.close();
@@ -268,6 +270,7 @@ void	BitcoinExchange::parsingFile(char *file)
 	{
 		checkLine(line);
 	}
+	fileIn.close();
 }
 
 void	BitcoinExchange::findExchange(std::string date, float value)
