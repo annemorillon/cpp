@@ -29,8 +29,8 @@ class PmergeMe {
 
 		void				_sort(T& arr);
 
-		void				_createPairs(T& arr, T& main, T& idx_main, T& pending, int& non_participating);
-		void				_updatePosWinner(typename T::iterator it, T& main, T& idx_main);
+		void				_createPairs(T& arr, std::vector<std::pair<int, int> >& pairs, T& pending, int& non_participating);
+		void			_updatePosWinner(int insert_pos, T& idx_main);
 		void				_insertPending(T& main, T& idx_main, T& pending);
 
 		void				_sortWithIndices(T& main, T& idx_main);

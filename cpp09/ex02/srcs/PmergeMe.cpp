@@ -4,24 +4,16 @@ template <typename T>
 PmergeMe<T>::PmergeMe() {}
 
 template <typename T>
-PmergeMe<T>::~PmergeMe() {
-	_before.clear();
-	_after.clear();
-}
+PmergeMe<T>::~PmergeMe() {}
 
 template <typename T>
-PmergeMe<T>::PmergeMe(const PmergeMe& copy)
-{
-	*this = copy;
-}
+PmergeMe<T>::PmergeMe(const PmergeMe& copy){*this = copy;}
 
 template <typename T>
 PmergeMe<T> &PmergeMe<T>::operator=(const PmergeMe<T>& other)
 {
 	if (this != &other)
 	{
-		_before.clear();
-		_after.clear();
 		_before = other._before;
 		_after = other._after;
 	}
@@ -46,7 +38,7 @@ void	PmergeMe<T>::_parsing(char **av)
 			if (av[i][j] == ' ' || (space != 0 && isdigit(av[i][j]) && !av[i][j+1]))
 			{
 				std::string tmp = avs.substr(space, j);
-				if (atoi(tmp.c_str())) // a modifier
+				if (atoi(tmp.c_str()) >= 0)
 					_before.push_back(atoi(tmp.c_str()));
 				else
 					throw std::invalid_argument("bad input");
@@ -56,7 +48,7 @@ void	PmergeMe<T>::_parsing(char **av)
 		}
 		if (space == 0)
 		{
-			if (atoi(av[i]) > 0) // a modifier
+			if (atoi(av[i]) >= 0)
 				_before.push_back(atoi(av[i]));
 			else
 				throw std::invalid_argument("bad input");
@@ -94,10 +86,9 @@ template <typename T>
 T	PmergeMe<T>::_sequenceInsertion(int n)
 {
 	T result;
-	if (n <= 0)
+	if (n <= 1)
 		return result;
 	T jacob = _sequenceJacobsthal(n);
-	// result.push_back(0);
 	size_t last_jacob = 1;
 	for (size_t i = 2; i < jacob.size(); i++) 
 	{
@@ -121,10 +112,8 @@ T	PmergeMe<T>::_sequenceInsertion(int n)
 }
 
 template <typename T>
-void	PmergeMe<T>::_updatePosWinner(typename T::iterator it, T& main, T& idx_main)
+void	PmergeMe<T>::_updatePosWinner(int insert_pos, T& idx_main)
 {
-	int insert_pos = std::distance(main.begin(), it);
-
 	for (int i = 0; i < (int)idx_main.size(); i++)
 	{
 		if (idx_main[i] >= insert_pos)
@@ -135,32 +124,59 @@ void	PmergeMe<T>::_updatePosWinner(typename T::iterator it, T& main, T& idx_main
 template <typename T>
 void	PmergeMe<T>::_insertPending(T& main, T& idx_main, T& pending)
 {
+	if (pending.empty())
+		return;
 	T jacobsthal = _sequenceInsertion((int) pending.size());
 	typename T::iterator it;
+	std::vector<bool> inserted(pending.size(), false);
 
-	int jaco = jacobsthal.size() - 1;
-	if (jaco > (int) pending.size())
-		jaco = pending.size() - 1;
-	it = lower_bound(main.begin(), main.end(), pending[0]);
-	main.insert(it, pending[0]);
-	_updatePosWinner(it, main, idx_main);
-	for (int i = jaco; i >= 0; i--)
+	{
+		int value = pending[0];
+		if (idx_main[0] < 0 || idx_main[0] > (int)main.size())
+			it = lower_bound(main.begin(), main.end(), value);
+		else
+			it = lower_bound(main.begin(), main.begin() + idx_main[0], value);
+		int insert_pos = std::distance(main.begin(), it);
+		main.insert(it, value);
+		_updatePosWinner(insert_pos, idx_main);
+		inserted[0] = true;
+	}
+
+	for (int i = (int)jacobsthal.size() - 1; i >= 0; --i)
 	{
 		int idx = jacobsthal[i];
-		if (idx >= (int)pending.size() || idx == 0)
+		if (idx <= 0 || idx >= (int)pending.size() || inserted[idx])
 			continue;
 		int value = pending[idx];
-		if (idx_main[idx] > (int)main.size())
+		if (idx_main[idx] < 0 || idx_main[idx] > (int)main.size())
 			it = lower_bound(main.begin(), main.end(), value);
 		else
 			it = lower_bound(main.begin(), main.begin() + idx_main[idx], value);
+		int insert_pos = std::distance(main.begin(), it);
 		main.insert(it, value);
-		_updatePosWinner(it, main, idx_main);
+		_updatePosWinner(insert_pos, idx_main);
+		inserted[idx] = true;
+	}
+
+	for (size_t idx = 0; idx < pending.size(); ++idx)
+	{
+		if (!inserted[idx])
+		{
+			int value = pending[idx];
+			if (idx_main[idx] < 0 || idx_main[idx] > (int)main.size())
+				it = lower_bound(main.begin(), main.end(), value);
+			else
+				it = lower_bound(main.begin(), main.begin() + idx_main[idx], value);
+			int insert_pos = std::distance(main.begin(), it);
+			main.insert(it, value);
+			_updatePosWinner(insert_pos, idx_main);
+			inserted[idx] = true;
+		}
 	}
 }
 
 template <typename T>
-void	PmergeMe<T>::_createPairs(T& arr, T& main, T& idx_main, T& pending, int& non_participating)
+void	PmergeMe<T>::_createPairs(T& arr, std::vector<std::pair<int, int> >& pairs, T& pending, int& non_participating)
 {
 	if (arr.size() % 2 != 0)
 		non_participating = arr.back();
@@ -170,34 +186,58 @@ void	PmergeMe<T>::_createPairs(T& arr, T& main, T& idx_main, T& pending, int& no
 	for (int i = 0; i + 1 < (int)arr.size(); i += 2)
 	{
 		int a = arr[i];
-		int b = -1;
-		if (arr[i + 1])
-			b = arr[i + 1];
-		if (a && b != -1)
-		{
-			int winner = std::max(a, b);
-			main.push_back(winner);
-			pending.push_back(std::min(a, b));
-			idx_main.push_back(winner);
-		}
+		int b = arr[i + 1];
+		int winner = std::max(a, b);
+		int loser = std::min(a, b);
+		pending.push_back(loser);
+		pairs.push_back(std::make_pair(winner, (int)pending.size() - 1));
 	}
 }
 
 template <typename T>
 void	PmergeMe<T>::_sort(T& arr)
 {	
-	T	main;
-	T	idx_main;
+	std::vector<std::pair<int, int> > pairs;
 	T	pending;
 	int	non_participating;
 
 	if (arr.size() <= 1)
 		return ;
 
-	_createPairs(arr, main, idx_main, pending, non_participating);
+	_createPairs(arr, pairs, pending, non_participating);
 
-	_sort(main);
+	T winners;
+	for (size_t i = 0; i < pairs.size(); ++i)
+		winners.push_back(pairs[i].first);
 
+	_sort(winners);
+
+	T idx_main;
+	{
+		std::vector<bool> used(winners.size(), false);
+		for (size_t i = 0; i < pairs.size(); ++i)
+		{
+			int winner_value = pairs[i].first;
+			int pos = -1;
+			for (size_t j = 0; j < winners.size(); ++j)
+			{
+				if (!used[j] && winners[j] == winner_value)
+				{
+					pos = (int)j;
+					used[j] = true;
+					break;
+				}
+			}
+			if (pos == -1)
+			{
+				std::cerr << "[PmergeMe] Warning: winner not found for value " << winner_value << ", defaulting pos=0\n";
+				pos = 0;
+			}
+			idx_main.push_back(pos);
+		}
+	}
+
+	T main = winners;
 	_insertPending(main, idx_main, pending);
 
 	if (non_participating != -1)
