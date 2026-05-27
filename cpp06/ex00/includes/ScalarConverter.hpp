@@ -33,7 +33,7 @@ class ScalarConverter
 		ScalarConverter();
 		~ScalarConverter();
 		ScalarConverter(ScalarConverter const& other);
-		ScalarConverter operator=(ScalarConverter const& other);
+		ScalarConverter& operator=(ScalarConverter const& other);
 
 };
 

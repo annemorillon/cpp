@@ -22,7 +22,7 @@ class Serializer
 		Serializer();
 		~Serializer();
 		Serializer(Serializer const& other);
-		Serializer operator=(Serializer const& other);
+		Serializer& operator=(Serializer const& other);
 
 };
 

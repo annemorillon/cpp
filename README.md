@@ -1,38 +1,34 @@
 # CPP Modules
 
-Complete C++ learning path covering fundamentals to advanced features: OOP, STL, templates, exceptions, and design patterns. Each module builds on previous concepts.
+Complete C++ learning path from 42 School: 10 modules covering namespaces, memory, polymorphism, inheritance, exceptions, templates, and STL.
 
 ---
 
 ## Modules Overview
 
 | Module | Topics | Key Concepts |
-|--------|--------|--------------|
-| **CPP00** | Classes & Objects | Constructors, encapsulation, `operator<<` |
-| **CPP01** | Memory & References | Pointers, `new`/`delete`, file I/O, string streams |
-| **CPP02** | Inheritance & Polymorphism | Virtual functions, abstract classes, access modifiers |
-| **CPP03** | Templates | Generic functions/classes, specialization |
-| **CPP04** | Exceptions | Try/catch/throw, custom exceptions, RAII |
-| **CPP05** | STL Containers & Algorithms | `vector`, `map`, `list`, iterators, lambdas |
-| **CPP06** | C++ Casts | `static_cast`, `dynamic_cast`, `const_cast` |
-| **CPP07** | Advanced Templates | Variadic templates, fold expressions, metaprogramming |
-| **CPP08** | Templated Containers & Iterators | Custom containers, iterator patterns, generic algorithms |
-| **CPP09** | Real-World Applications | RPN calculator, sorting algorithms, design patterns |
+|--------|-------|-----------|
+| **00** | Namespaces, slots, memory allocation, lists | Basic classes, PhoneBook, Account |
+| **01** | Memory allocation, pointers, references | Zombie, HumanA/B, Harl, Sed |
+| **02** | Ad-hoc polymorphism, operator overloading | Fixed-point, BSP, Orthodox Canonical Form |
+| **03** | Inheritance | ClapTrap, ScavTrap, FragTrap, DiamondTrap |
+| **04** | Subtype polymorphism, abstract classes | Animal, Brain, Materia, Character |
+| **05** | Repetition and Exceptions | Bureaucrat, Forms, Intern |
+| **06** | Casts | Scalar conversion, Serialization, Type identification |
+| **07** | Templates | Whatever, Iter, Array |
+| **08** | Templated containers, iterators | easyFind, Span, MutantStack |
+| **09** | STL (Standard Template Library) | BitcoinExchange, RPN, PmergeMe |
 
 ---
 
 ## Quick Start
 
 ```bash
-git clone git@github.com:annemorillon/cpp.git
+git clone https://github.com/[login]/cpp_modules.git
 cd cpp_modules
 
-# Build specific module
 cd cpp00
-make
-
-# Run
-./program
+make && ./program
 ```
 
 ---
@@ -43,20 +39,12 @@ make
 cpp_modules/
 ├── cpp00/
 │   ├── ex00/
-│   ├── ex01/main.cpp
-│        ├── includes/
-│        ├── src/
-│        └── Makefile   
-│   ├── ex02/
-│   ├── ex03/
-├── cpp01/
-│   ├── ex00/ ... ex06/
-├── cpp02/
-├── cpp03/
-├── cpp04/
-├── cpp05/
-├── cpp06/
-├── cpp07/
+│   ├── ex01/
+│   └── ex02/
+│       ├── includes/
+│       ├── src/
+│       └── Makefile
+├── cpp01/ ... cpp09/
 ├── README.md
 └── .gitignore
 ```
