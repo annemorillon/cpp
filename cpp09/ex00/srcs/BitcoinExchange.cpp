@@ -95,10 +95,11 @@ static bool	checkDay(const std::string& tmp, const std::string& month, const std
 					return (true);
 	}
 	if (month == "04" || month == "06" || month == "09" || month == "11")
+	{
 		if (day >= 01 && day <= 30)
 			return (true);
-	else
-		if (day >= 01 && day <= 31)
+	}
+	else if (day >= 01 && day <= 31)
 			return (true);
 	return (false);
 }
