@@ -155,7 +155,7 @@ void	PmergeMe<T>::_insertPending(T& main, T& idx_main, T& pending)
 	typename T::iterator it;
 	std::vector<bool> inserted(pending.size(), false);
 	_insertFirst(main, idx_main, pending, inserted);
-	for (int i = (int)jacobsthal.size() - 1; i >= 0; --i)
+	for (int i = (int)jacobsthal.size() - 1; i >= 0; i--)
 	{
 		int idx = jacobsthal[i];
 		if (idx <= 0 || idx >= (int)pending.size() || inserted[idx])
@@ -204,18 +204,18 @@ void	PmergeMe<T>::_sort(T& arr)
 	_createPairs(arr, pairs, pending, non_participating);
 
 	T winners;
-	for (size_t i = 0; i < pairs.size(); ++i)
+	for (size_t i = 0; i < pairs.size(); i++)
 		winners.push_back(pairs[i].first);
 
 	_sort(winners);
 
 	T idx_main;
 	std::vector<bool> used(winners.size(), false);
-	for (size_t i = 0; i < pairs.size(); ++i)
+	for (size_t i = 0; i < pairs.size(); i++)
 	{
 		int winner_value = pairs[i].first;
 		int pos = -1;
-		for (size_t j = 0; j < winners.size(); ++j)
+		for (size_t j = 0; j < winners.size(); j++)
 		{
 			if (!used[j] && winners[j] == winner_value)
 			{
@@ -272,7 +272,7 @@ void	PmergeMe<T>::_checkSort()
 	{
 		typename T::iterator it = _after.begin();
 		typename T::iterator next = it;
-		++next;
+		next++;
 		while (next != _after.end())
 		{
 			if (*it > *next)
@@ -280,8 +280,8 @@ void	PmergeMe<T>::_checkSort()
 				is_sorted = false;
 				break;
 			}
-			++it;
-			++next;
+			it++;
+			next++;
 		}
 	}
 	if (_before.size() != _after.size())
@@ -327,5 +327,5 @@ void	PmergeMe<T>::process(char **av)
 
 	_printEnd(start, end);
 
-	// _checkSort();
+	_checkSort();
 }
