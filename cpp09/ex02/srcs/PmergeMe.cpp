@@ -20,6 +20,17 @@ PmergeMe<T> &PmergeMe<T>::operator=(const PmergeMe<T>& other)
 	return (*this);
 }
 
+static int	checkInt(const std::string tmp)
+{
+	errno = 0;
+	char *endptr;
+	long val = strtol(tmp.c_str(), &endptr, 10);
+
+	if (errno == ERANGE || val > INT_MAX || val < 0 || *endptr != '\0')
+		throw std::invalid_argument("bad input");
+	return (static_cast<int>(val));	
+}
+
 template <typename T>
 void	PmergeMe<T>::_parsing(char **av)
 {
@@ -35,24 +46,24 @@ void	PmergeMe<T>::_parsing(char **av)
 			avs = av[i];
 			if (!isdigit(av[i][j]) && !(av[i][j] == ' '))
 				throw std::invalid_argument("bad input");
-			if (av[i][j] == ' ' || (space != 0 && isdigit(av[i][j]) && !av[i][j+1]))
+			if (av[i][j] == ' ')
 			{
-				std::string tmp = avs.substr(space, j);
-				if (atoi(tmp.c_str()) >= 0)
-					_before.push_back(atoi(tmp.c_str()));
-				else
-					throw std::invalid_argument("bad input");
-				space = j;
+				int val = checkInt(avs.substr(space, j - space));
+				_before.push_back(val);
+                space = j + 1;
+			}
+			if (space != 0 && isdigit(av[i][j]) && !av[i][j+1])
+			{
+				int val = checkInt(avs.substr(space, j + 1 - space));
+				_before.push_back(val);
 			}
 			j++;
 		}
 		if (space == 0)
 		{
-			if (atoi(av[i]) >= 0)
-				_before.push_back(atoi(av[i]));
-			else
-				throw std::invalid_argument("bad input");
-		}
+            int val = checkInt(avs);
+			_before.push_back(val);
+        }
 		i++;
 	}
 	_after = _before;
@@ -75,9 +86,9 @@ T	PmergeMe<T>::_sequenceJacobsthal(int n)
 	
 	while (jacob.back() < n)
 	{
-		int next = jacob[jacob.size()-1] + 2 * jacob[jacob.size() - 2];
-		if (next >= n) break;
+		int next = jacob[jacob.size() - 1] + 2 * jacob[jacob.size() - 2];
 		jacob.push_back(next);
+		if (next >= n) break;
 	}
 	return (jacob);
 }
@@ -86,27 +97,26 @@ template <typename T>
 T	PmergeMe<T>::_sequenceInsertion(int n)
 {
 	T result;
-	if (n <= 1)
+	int start;
+	if (n < 2)
 		return result;
 	T jacob = _sequenceJacobsthal(n);
 	size_t last_jacob = 1;
-	for (size_t i = 2; i < jacob.size(); i++) 
+	for (size_t i = 0; i < jacob.size(); i++) 
 	{
 		int current_jacob = jacob[i];
-		int start = (current_jacob < n) ? current_jacob : n - 1;
-		for (int j = start; j > (int)last_jacob; j--) 
-		{
+		if (current_jacob < n)
+			start = current_jacob;
+		else
+			start = n - 1;
+		for (int j = start; j > (int)last_jacob; j--)
 			result.push_back(j);
-		}
 		last_jacob = current_jacob;
 	}
-
 	if ((int)last_jacob < n) 
 	{
 		for (int j = n - 1; j > (int)last_jacob; j--) 
-		{
 			result.push_back(j);
-		}
 	}
 	return (result);
 }
@@ -122,26 +132,29 @@ void	PmergeMe<T>::_updatePosWinner(int insert_pos, T& idx_main)
 }
 
 template <typename T>
+void	PmergeMe<T>::_insertFirst(T& main, T& idx_main, T& pending, std::vector<bool>& inserted)
+{
+	typename T::iterator it;
+	int value = pending[0];
+	if (idx_main[0] < 0 || idx_main[0] > (int)main.size())
+		it = lower_bound(main.begin(), main.end(), value);
+	else
+		it = lower_bound(main.begin(), main.begin() + idx_main[0], value);
+	int insert_pos = std::distance(main.begin(), it);
+	main.insert(it, value);
+	_updatePosWinner(insert_pos, idx_main);
+	inserted[0] = true;
+}
+
+template <typename T>
 void	PmergeMe<T>::_insertPending(T& main, T& idx_main, T& pending)
 {
 	if (pending.empty())
 		return;
-	T jacobsthal = _sequenceInsertion((int) pending.size());
+	T jacobsthal = _sequenceInsertion((int)pending.size());
 	typename T::iterator it;
 	std::vector<bool> inserted(pending.size(), false);
-
-	{
-		int value = pending[0];
-		if (idx_main[0] < 0 || idx_main[0] > (int)main.size())
-			it = lower_bound(main.begin(), main.end(), value);
-		else
-			it = lower_bound(main.begin(), main.begin() + idx_main[0], value);
-		int insert_pos = std::distance(main.begin(), it);
-		main.insert(it, value);
-		_updatePosWinner(insert_pos, idx_main);
-		inserted[0] = true;
-	}
-
+	_insertFirst(main, idx_main, pending, inserted);
 	for (int i = (int)jacobsthal.size() - 1; i >= 0; --i)
 	{
 		int idx = jacobsthal[i];
@@ -156,22 +169,6 @@ void	PmergeMe<T>::_insertPending(T& main, T& idx_main, T& pending)
 		main.insert(it, value);
 		_updatePosWinner(insert_pos, idx_main);
 		inserted[idx] = true;
-	}
-
-	for (size_t idx = 0; idx < pending.size(); ++idx)
-	{
-		if (!inserted[idx])
-		{
-			int value = pending[idx];
-			if (idx_main[idx] < 0 || idx_main[idx] > (int)main.size())
-				it = lower_bound(main.begin(), main.end(), value);
-			else
-				it = lower_bound(main.begin(), main.begin() + idx_main[idx], value);
-			int insert_pos = std::distance(main.begin(), it);
-			main.insert(it, value);
-			_updatePosWinner(insert_pos, idx_main);
-			inserted[idx] = true;
-		}
 	}
 }
 
@@ -213,28 +210,23 @@ void	PmergeMe<T>::_sort(T& arr)
 	_sort(winners);
 
 	T idx_main;
+	std::vector<bool> used(winners.size(), false);
+	for (size_t i = 0; i < pairs.size(); ++i)
 	{
-		std::vector<bool> used(winners.size(), false);
-		for (size_t i = 0; i < pairs.size(); ++i)
+		int winner_value = pairs[i].first;
+		int pos = -1;
+		for (size_t j = 0; j < winners.size(); ++j)
 		{
-			int winner_value = pairs[i].first;
-			int pos = -1;
-			for (size_t j = 0; j < winners.size(); ++j)
+			if (!used[j] && winners[j] == winner_value)
 			{
-				if (!used[j] && winners[j] == winner_value)
-				{
-					pos = (int)j;
-					used[j] = true;
-					break;
-				}
+				pos = (int)j;
+				used[j] = true;
+				break;
 			}
-			if (pos == -1)
-			{
-				std::cerr << "[PmergeMe] Warning: winner not found for value " << winner_value << ", defaulting pos=0\n";
-				pos = 0;
-			}
-			idx_main.push_back(pos);
 		}
+		if (pos == -1)
+			throw std::runtime_error("Winner not found in sorted winners list");
+		idx_main.push_back(pos);
 	}
 
 	T main = winners;
@@ -271,25 +263,11 @@ void	PmergeMe<T>::_printEnd(struct timeval start, struct timeval end)
 }
 
 template <typename T>
-void	PmergeMe<T>::process(char **av)
+void	PmergeMe<T>::_checkSort()
 {
-	struct timeval start, end;
-
-	_parsing(av);
-
-	gettimeofday(&start, NULL);
-	_sort(_after);
-	gettimeofday(&end, NULL);
-
-	_printEnd(start, end);
-
-	
-	
-
 	bool is_sorted = true;
 	bool integrity_ok = true;
 
-	// 1. Vérification du tri croissant
 	if (_after.size() > 1)
 	{
 		typename T::iterator it = _after.begin();
@@ -306,31 +284,22 @@ void	PmergeMe<T>::process(char **av)
 			++next;
 		}
 	}
-
-	// 2. Vérification de l'intégrité (Taille + Contenu)
 	if (_before.size() != _after.size())
 	{
 		integrity_ok = false;
 	}
 	else
 	{
-		// On effectue une copie locale de nos conteneurs pour les comparer sans altérer les variables de la classe
 		T temp_before = _before;
 		T temp_after = _after;
 
-		// On trie temp_before avec l'algorithme standard pour référence de comparaison
 		std::sort(temp_before.begin(), temp_before.end());
-		// Normalement temp_after est déjà trié par ton PmergeMe, mais on s'assure qu'il soit dans le même état au cas où
 		std::sort(temp_after.begin(), temp_after.end());
 
-		// Si l'intégrité est respectée, le tableau trié par std::sort et le tien doivent être identiques à 100%
 		if (temp_before != temp_after)
-		{
 			integrity_ok = false;
-		}
 	}
 
-	// 3. Affichage du verdict
 	if (is_sorted && integrity_ok)
 	{
 		std::cout << "\033[32m[OK] Vérification réussie : Le conteneur est parfaitement trié et toutes les valeurs sont intègres.\033[0m" << std::endl;
@@ -343,4 +312,20 @@ void	PmergeMe<T>::process(char **av)
 		if (!integrity_ok)
 			std::cout << "\033[31m     -> Problème d'intégrité : des valeurs ont été perdues, modifiées ou dupliquées.\033[0m" << std::endl;
 	}
+}
+
+template <typename T>
+void	PmergeMe<T>::process(char **av)
+{
+	struct timeval start, end;
+
+	_parsing(av);
+
+	gettimeofday(&start, NULL);
+	_sort(_after);
+	gettimeofday(&end, NULL);
+
+	_printEnd(start, end);
+
+	// _checkSort();
 }

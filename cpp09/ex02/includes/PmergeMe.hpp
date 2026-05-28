@@ -8,6 +8,7 @@
 # include	<sys/time.h>
 # include	<cstring>
 # include	<typeinfo>
+# include	<limits.h>
 
 # define RESET	"\033[0m"
 # define RED	"\033[31m"
@@ -27,19 +28,20 @@ class PmergeMe {
 
 		void				_parsing(char **av);
 
-		void				_sort(T& arr);
-
 		void				_createPairs(T& arr, std::vector<std::pair<int, int> >& pairs, T& pending, int& non_participating);
-		void			_updatePosWinner(int insert_pos, T& idx_main);
-		void				_insertPending(T& main, T& idx_main, T& pending);
-
-		void				_sortWithIndices(T& main, T& idx_main);
-
+		
 		T					_sequenceInsertion(int n);
 		T					_sequenceJacobsthal(int n);
 
+		void				_insertFirst(T& main, T& idx_main, T& pending, std::vector<bool>& inserted);
+		void				_insertPending(T& main, T& idx_main, T& pending);
+		void				_updatePosWinner(int insert_pos, T& idx_main);
+
+		void				_sort(T& arr);
+
 		long				_calculateTime(struct timeval start, struct timeval end) const;
 		void				_printEnd(struct timeval start, struct timeval end);
+		void				_checkSort();
 
 		T	_before;
 		T	_after;
@@ -57,8 +59,6 @@ void print(T& tab)
 		if (it != tab.end())
 			std::cout << " ";
 	}
-	// if (it == tab.begin())
-	// 	throw std::runtime_error("value not found");
 	std::cout << "\n";
 }
 
