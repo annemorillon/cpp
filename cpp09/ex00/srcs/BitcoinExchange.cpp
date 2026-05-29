@@ -128,7 +128,7 @@ static bool checkDate(const std::string& date)
 		return (false);
 	}
 	day = date.substr(8, 2);
-	if (!checkDay(month, month, year))
+	if (!checkDay(day, month, year))
 	{
 		throw std::invalid_argument("invalid day");
 		return (false);
@@ -282,7 +282,10 @@ void	BitcoinExchange::findExchange(std::string date, float value)
 
 	it = _info.lower_bound(date);
 	if (it == _info.begin() && date != it->first)
+	{
 		std::cout << RED << "Error:" << RESET << " bad input: " << date << "\n";
+		return ;
+	}
 	if (it == _info.end())
 	{
 		--it;
